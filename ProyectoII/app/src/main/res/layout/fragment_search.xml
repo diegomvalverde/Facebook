@@ -2,10 +2,71 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <TextView
+    <EditText
+        android:id="@+id/criteriobusqueda"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"/>
+
+    <RelativeLayout
+        android:id="@+id/opcionusuarios"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Este es el fragment search "
-        android:textSize="22sp"></TextView>
+        android:layout_below="@id/criteriobusqueda"
+        android:layout_centerHorizontal="true">
+
+        <CheckBox
+            android:id="@+id/userson"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/usuarioslabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/users"
+            android:layout_toEndOf="@id/userson"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/opcionposts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/opcionusuarios"
+        android:layout_centerHorizontal="true">
+
+        <CheckBox
+            android:id="@+id/postson"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/postslabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/posts"
+            android:layout_toEndOf="@id/postson"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+
+
+    <Button
+        android:id="@+id/buscarbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/opcionposts"
+        android:layout_centerHorizontal="true"
+        android:text="@string/search"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/buscarbtn"/>
+
 </RelativeLayout>
