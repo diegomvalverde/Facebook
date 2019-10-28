@@ -10,13 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Post"></activity>
-        <activity android:name=".MenuActivity">
+        <activity android:name=".BeforeLogin.RegisterActivity" android:theme="@style/ActivityWithToolbar"></activity>
+        <activity android:name=".BeforeLogin.LogInActivity" android:theme="@style/LogIn">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MenuActivity"></activity>
     </application>
 
 </manifest>

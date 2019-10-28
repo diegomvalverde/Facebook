@@ -3,4 +3,10 @@
     <string name="users">Usuarios</string>
     <string name="posts">Posts</string>
     <string name="search">Buscar</string>
+
+    <string-array name="lista_generos">
+        <item>No binario</item>
+        <item>Mujer</item>
+        <item>Hombre</item>
+    </string-array>
 </resources>
