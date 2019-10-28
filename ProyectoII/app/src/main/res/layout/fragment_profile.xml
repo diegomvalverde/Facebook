@@ -70,4 +70,14 @@
         android:layout_marginBottom="389dp"
         android:text="Estudia Ingenería en Computación en Tecnolódico de Costa Rica \n Vive en Parrita, Puntarenas, Costa Rica \n De Parrita, Puntarenas, Costa Rica \n" />
 
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="307dp"
+        android:layout_height="215dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="52dp"
+        android:layout_marginBottom="143dp" />
+
 </RelativeLayout>
