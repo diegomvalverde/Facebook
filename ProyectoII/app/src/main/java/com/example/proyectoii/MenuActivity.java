@@ -10,6 +10,7 @@ import android.os.Bundle;
 import com.example.proyectoii.MenuFragments.FriendsFragment;
 import com.example.proyectoii.MenuFragments.HomeFragment;
 import com.example.proyectoii.MenuFragments.NotificationFragment;
+import com.example.proyectoii.MenuFragments.OptionsFragment;
 import com.example.proyectoii.MenuFragments.ProfileFragment;
 import com.example.proyectoii.MenuFragments.SearchFragment;
 import com.example.proyectoii.Utils.TabAdapter;
@@ -43,6 +44,7 @@ public class MenuActivity extends AppCompatActivity {
         adapter.addFragment(new FriendsFragment());
         adapter.addFragment(new NotificationFragment());
         adapter.addFragment(new SearchFragment());
+        adapter.addFragment(new OptionsFragment());
         viewPager.setAdapter(adapter);
 
         TabLayout tabLayout = findViewById(R.id.tabs);
@@ -56,6 +58,7 @@ public class MenuActivity extends AppCompatActivity {
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_friends);
         tabLayout.getTabAt(3).setIcon(R.drawable.ic_notification);
         tabLayout.getTabAt(4).setIcon(R.drawable.ic_search);
+        tabLayout.getTabAt(5).setIcon(R.drawable.ic_options);
 
         tabLayout.addOnTabSelectedListener( new TabLayout.ViewPagerOnTabSelectedListener(viewPager){
 
