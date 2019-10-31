@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MenuFragments.OptionsFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout_Options_Profile"
+            android:layout_width="match_parent"
+            android:layout_height="80sp">
+
+            <TextView
+                android:id="@+id/textView_Options_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="100sp"
+                android:layout_marginTop="15sp"
+                android:text="Andy Foster"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="100sp"
+                android:layout_marginTop="40sp"
+                android:text="Ver tu perfil"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imageView_Options"
+                android:layout_width="45sp"
+                android:layout_height="45sp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="25sp"
+                android:src="@mipmap/ic_launcher" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/relativeLayout_Options_Profile">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout_Options_Salir"
+                android:layout_width="match_parent"
+                android:layout_height="60sp">
+                <ImageView
+                    android:layout_width="40sp"
+                    android:layout_height="40sp"
+                    android:src="@drawable/puertita"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="25sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="100sp"
+                    android:textSize="20sp"
+                    android:text="Cerrar Sesión"
+                    android:textColor="@android:color/black"/>
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</FrameLayout>

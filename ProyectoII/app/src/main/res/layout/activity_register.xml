@@ -244,9 +244,16 @@
                 android:onClick="onClickCrearCuenta"/>
 
 
-
         </RelativeLayout>
 
     </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progressbar_Register"
+        android:layout_width="120sp"
+        android:layout_height="120sp"
+        android:visibility="invisible"
+        android:layout_centerInParent="true"/>
+
 
 </RelativeLayout>
