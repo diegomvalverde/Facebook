@@ -1,23 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Post">
 
-    <RelativeLayout
+    <Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="60sp"
+        android:background="@color/colorPrimary">
+
+        <Button
+            android:id="@+id/btn_Register_back"
+            android:layout_width="25sp"
+            android:layout_height="23sp"
+            android:background="@drawable/ic_arrow_back" />
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Posts avaible soon"
-            android:layout_centerInParent="true"/>
+            android:textSize="22sp"
+            android:textColor="@android:color/white"
+            android:layout_marginStart="40sp"
+            android:text="Crear post"/>
 
-    </RelativeLayout>
+    </Toolbar>
+
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:layout_above="@id/addimagen">
+
+        <EditText
+            android:id="@+id/postTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top|start"
+            android:hint="escriba su post aqui"
+            android:inputType="textMultiLine"
+            android:lines="25"
+            android:padding="20dp"
+            />
+
+    </ScrollView>
 
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/addimagen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"/>
+
+    <Button
+        android:id="@+id/addvideourl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/addimagen"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"/>
+
+</RelativeLayout>
