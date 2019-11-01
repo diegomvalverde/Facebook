@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BeforeLogin.RegisterActivity">
+    <Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="60sp"
+        android:background="@color/colorPrimary">
+
+        <Button
+            android:id="@+id/btn_Register_back"
+            android:layout_width="25sp"
+            android:layout_height="23sp"
+            android:background="@drawable/ic_arrow_back"
+            android:onClick="onClickBack" />
+
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textSize="22sp"
+           android:textColor="@android:color/white"
+           android:layout_marginStart="40sp"
+           android:text="Crear cuenta"/>
+
+    </Toolbar>
+    
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60sp">
+        
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="35sp"
+                android:text="¿Cómo te llamas?"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                />
+
+            <TextView
+                android:id="@+id/textError_Register_Nombre"
+                android:layout_width="wrap_content"
+                android:layout_height="0sp"
+                android:textColor="@color/Error"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="60sp"
+                android:textSize="12sp" />
+
+           <com.google.android.material.textfield.TextInputLayout
+               android:id="@+id/textInput_Register_Nombre"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_below="@+id/textError_Register_Nombre"
+               android:layout_marginStart="25sp"
+               android:theme="@style/NormalTextInput"
+               android:textColorHint="@color/colorPrimary">
+
+               <EditText
+                   android:id="@+id/editText_Register_Nombre"
+                   android:layout_width="180sp"
+                   android:layout_height="45sp"
+                   android:hint="Nombre"
+                   android:inputType="textPersonName"
+                   android:imeOptions="actionNext"
+                   android:textColor="@android:color/black"/>
+           </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInput_Register_Apellido"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textError_Register_Nombre"
+                android:layout_toEndOf="@+id/textInput_Register_Nombre"
+                android:theme="@style/NormalTextInput"
+                android:textColorHint="@color/colorPrimary"
+                >
+
+                <EditText
+                    android:id="@+id/editText_Register_Apellido"
+                    android:layout_width="180sp"
+                    android:layout_height="45sp"
+                    android:hint="Apellido"
+                    android:inputType="textPersonName"
+                    android:imeOptions="actionNext"
+                    android:textColor="@android:color/black" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/textError_Register_Nombre"
+                android:layout_marginTop="80sp"
+                android:text="Ingresa tu dirección de correo electrónico"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                />
+            <TextView
+                android:id="@+id/textError_Register_Correo"
+                android:layout_width="wrap_content"
+                android:layout_height="0sp"
+                android:textColor="@color/Error"
+                android:layout_below="@+id/textError_Register_Nombre"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="105sp"
+                android:textSize="12sp" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInput_Register_Correo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textError_Register_Correo"
+                android:layout_centerHorizontal="true"
+                android:theme="@style/NormalTextInput"
+                android:textColorHint="@color/colorPrimary"
+                >
+
+                <EditText
+                    android:id="@+id/editText_Register_Correo"
+                    android:layout_width="325sp"
+                    android:layout_height="45sp"
+                    android:hint="Correo electrónico"
+                    android:inputType="textEmailAddress"
+                    android:imeOptions="actionNext"
+                    android:textColor="@android:color/black"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/textError_Register_Correo"
+                android:layout_marginTop="65sp"
+                android:text="Elige una contraseña"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                />
+            <TextView
+                android:id="@+id/textError_Register_Contrasena"
+                android:layout_width="wrap_content"
+                android:layout_height="0sp"
+                android:textColor="@color/Error"
+                android:layout_below="@+id/textError_Register_Correo"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="90sp"
+                android:textSize="12sp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInput_Register_Contrasena"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textError_Register_Contrasena"
+                android:layout_centerHorizontal="true"
+                android:theme="@style/NormalTextInput"
+                android:textColorHint="@color/colorPrimary"
+                >
+
+
+                <EditText
+                    android:id="@+id/editText_Register_Contrasena"
+                    android:layout_width="325sp"
+                    android:layout_height="45sp"
+                    android:hint="Contraseña"
+                    android:inputType="textPassword"
+                    android:imeOptions="actionDone"
+                    android:textColor="@android:color/black"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/textInput_Register_Contrasena"
+                android:layout_marginTop="30sp"
+                android:text="¿Cuándo naciste?"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                />
+            <TextView
+                android:id="@+id/textError_Register_Edad"
+                android:layout_width="wrap_content"
+                android:layout_height="0sp"
+                android:textColor="@color/Error"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/textInput_Register_Contrasena"
+                android:layout_marginTop="55sp"
+                android:textSize="12sp" />
+
+            <DatePicker
+                android:id="@+id/datePicker_Register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textError_Register_Edad"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15sp"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner"
+                android:spinnersShown="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/textError_Register_Edad"
+                android:layout_marginTop="255sp"
+                android:text="¿Con qué género te identificas?"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                />
+            <Spinner
+                android:id="@+id/spinner_Register"
+                android:layout_width="300sp"
+                android:layout_height="40sp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/textError_Register_Edad"
+                android:layout_marginTop="300sp"
+                android:entries="@array/lista_generos"
+                />
+
+            <Button
+                android:id="@+id/btn_Register_Registrar"
+                android:layout_width="160sp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/spinner_Register"
+                android:layout_marginTop="45sp"
+                android:layout_marginBottom="30sp"
+                android:background="@color/colorPrimary"
+                android:text="Crear cuenta"
+                android:textSize="18sp"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:onClick="onClickCrearCuenta"/>
+
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

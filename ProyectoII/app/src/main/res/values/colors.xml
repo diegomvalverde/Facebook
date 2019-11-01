@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#1878F3</color>
+    <color name="colorPrimary">#008B8B</color>
     <color name="colorPrimaryDark">#FFF</color>
-    <color name="colorAccent">#1878F3</color>
+    <color name="colorAccent">#008B8B</color>
 
 
-    <!--Color iconos -->
     <color name="ic_gris">#444851</color>
-    <color name="ic_azul">#1878F3</color>
+    <color name="GrenYellow">#ADFF2F</color>
+    <color name="YellowGreen">#9ACD32</color>
+    <color name="MediumAquamarine">#66CDAA</color>
+    <color name="LightSeaGreen">#20B2AA</color>
+    <color name="DarkCyan">#008B8B</color>
+    <color name="Error">#F44336</color>
+
 
 </resources>

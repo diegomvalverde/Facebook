@@ -50,7 +50,7 @@ public class MenuActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_home);
-        int tabIconColor = ContextCompat.getColor(getApplicationContext(), R.color.ic_azul);
+        int tabIconColor = ContextCompat.getColor(getApplicationContext(), R.color.DarkCyan);
         tabLayout.getTabAt(0).getIcon().setColorFilter(tabIconColor,PorterDuff.Mode.SRC_IN);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_profile);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_friends);
@@ -62,7 +62,7 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 super.onTabSelected(tab);
-                int tabIconColor = ContextCompat.getColor(getApplicationContext(), R.color.ic_azul);
+                int tabIconColor = ContextCompat.getColor(getApplicationContext(), R.color.DarkCyan);
                 tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
             }
 
