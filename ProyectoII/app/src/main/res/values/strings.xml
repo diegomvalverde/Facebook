@@ -3,6 +3,8 @@
     <string name="users">Usuarios</string>
     <string name="posts">Posts</string>
     <string name="search">Buscar</string>
+    <string name="posthint">Escriba su post aqui</string>
+    <string name="publish">publicar</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
