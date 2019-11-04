@@ -34,7 +34,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
-        android:layout_above="@id/addimagen">
+        android:layout_above="@id/imgpreviewbox"
+        android:background="@android:color/white">
 
         <EditText
             android:id="@+id/postTxt"
@@ -50,6 +51,24 @@
     </ScrollView>
 
 
+    <ImageView
+        android:id="@+id/imgpreviewbox"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_above="@id/publicar"
+        android:background="@android:color/white"
+        android:visibility="visible"
+        />
+
+    <EditText
+        android:id="@+id/ytlink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="2"
+        android:hint="@string/ythint"
+        android:paddingStart="20dp"
+        android:layout_above="@id/publicar"
+        android:visibility="invisible"/>
 
     <ImageButton
         android:id="@+id/addimagen"
@@ -59,7 +78,7 @@
         android:layout_marginBottom="20dp"
         android:layout_alignParentStart="true"
         android:layout_marginStart="20dp"
-        android:background="@drawable/image"
+        android:background="@drawable/imagedisabled"
         android:scaleType="fitXY"/>
 
     <ImageButton
@@ -71,7 +90,7 @@
         android:layout_marginBottom="20dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:background="@drawable/videoplayer"/>
+        android:background="@drawable/videoplayerdisabled"/>
 
     <Button
         android:id="@+id/publicar"

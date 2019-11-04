@@ -5,6 +5,7 @@
     <string name="search">Buscar</string>
     <string name="posthint">Escriba su post aqui</string>
     <string name="publish">publicar</string>
+    <string name="ythint">Pegue el link del video aquí</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
