@@ -60,6 +60,16 @@
         android:visibility="visible"
         />
 
+    <ImageView
+        android:id="@+id/imgpreview"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:adjustViewBounds="true"
+        android:layout_above="@id/publicar"
+        android:layout_alignStart="@id/imgpreviewbox"
+        android:layout_alignTop="@id/imgpreviewbox"
+        android:layout_margin="20dp"/>
+
     <EditText
         android:id="@+id/ytlink"
         android:layout_width="match_parent"
