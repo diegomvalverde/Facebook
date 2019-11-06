@@ -1,5 +1,6 @@
 package com.example.proyectoii;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
@@ -13,12 +14,19 @@ import com.example.proyectoii.MenuFragments.NotificationFragment;
 import com.example.proyectoii.MenuFragments.OptionsFragment;
 import com.example.proyectoii.MenuFragments.ProfileFragment;
 import com.example.proyectoii.MenuFragments.SearchFragment;
+import com.example.proyectoii.Objetos.Usuario;
 import com.example.proyectoii.Utils.TabAdapter;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class MenuActivity extends AppCompatActivity {
-
+    public static Usuario usuario = new Usuario();
     private TabAdapter mTabAdapter;
     private ViewPager mViewPager;
 
@@ -32,6 +40,18 @@ public class MenuActivity extends AppCompatActivity {
 
 
         configurarToolbar(mViewPager);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getCurrentUser();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getCurrentUser();
     }
 
     /**
@@ -84,5 +104,23 @@ public class MenuActivity extends AppCompatActivity {
         );
 
 
+    }
+
+    private void getCurrentUser(){
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        DatabaseReference myRef = database.getReference("usuarios/"+firebaseAuth.getCurrentUser().getUid());
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                usuario =  dataSnapshot.getValue(Usuario.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

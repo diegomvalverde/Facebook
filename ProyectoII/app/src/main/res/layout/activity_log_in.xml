@@ -28,7 +28,7 @@
            android:layout_width="360sp"
            android:layout_height="60sp"
            android:imeOptions="actionNext"
-           android:hint="Correo electróncico"
+           android:hint="Correo electrónico"
            android:inputType="textEmailAddress" />
 
 

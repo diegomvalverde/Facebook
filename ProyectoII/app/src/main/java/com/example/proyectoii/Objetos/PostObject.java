@@ -1,5 +1,7 @@
 package com.example.proyectoii.Objetos;
 
+import androidx.annotation.Nullable;
+
 public class PostObject {
 
     private String descripcion;
@@ -25,18 +27,10 @@ public class PostObject {
         this.videoUrl = videoUrl;
     }
 
-    public void setTipo(int type) {
-        switch (type) {
-            case 0:
-                tipo = "TEXTO";
-                break;
-            case 1:
-                tipo = "IMAGE";
-                break;
-            case 2:
-                tipo = "VIDEO";
-                break;
-        }
+
+
+    public void setTipo(String type) {
+        tipo = type;
     }
 
     public String getAuthorId() {
@@ -58,4 +52,5 @@ public class PostObject {
     public String getVideoUrl() {
         return videoUrl;
     }
+
 }

@@ -96,13 +96,13 @@ public class Post extends AppCompatActivity {
             if (imgselected) {
                 String imguri = uploadImage();
                 newPost.setImageURI(imguri);
-                newPost.setTipo(IMAGE);
+                newPost.setTipo("TEXTO");
             } else if (vidselected) {
                 EditText vidurl = findViewById(R.id.ytlink);
                 newPost.setVideoUrl(vidurl.getText().toString());
-                newPost.setTipo(VIDEO);
+                newPost.setTipo("IMAGE");
             } else {
-                newPost.setTipo(TEXT);
+                newPost.setTipo("VIDEO");
             }
             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
             String key = mDatabase.child("posts").push().getKey();

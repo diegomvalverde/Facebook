@@ -49,6 +49,9 @@ public class Usuario {
 
     }
 
+    public Usuario() {
+        this.amigos = new ArrayList<>();
+    }
 
     public String getCorreo() {
         return correo;

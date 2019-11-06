@@ -190,7 +190,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String nombre = editTextNombre.getText().toString();
                 String apellido = editTextApellido.getText().toString();
                 String genero = spinnerGenero.getSelectedItem().toString();
-                String fechaNac = dateFormat.format(getDateFromDatePicker());
+                String fechaNac = datePicker.getDayOfMonth()+"/"+(datePicker.getMonth()+1)+"/"+datePicker.getYear();
 
                 nuevoUsuario = new Usuario(correo,nombre,apellido,fechaNac,genero);
                connetionInProgress = true;
@@ -231,7 +231,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private java.util.Date getDateFromDatePicker() {
         int day = datePicker.getDayOfMonth();
-        int month = datePicker.getMonth();
+        int month = datePicker.getMonth()+1;
         int year = datePicker.getYear();
 
         Calendar calendar = Calendar.getInstance();

@@ -1,0 +1,43 @@
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15sp"
+        android:background="@drawable/border_postlayout">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/img_post_perfil"
+            android:src="@drawable/ic_profile"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15sp"
+
+            />
+        <TextView
+            android:id="@+id/text_post_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Andy Foster"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="5sp"
+            android:layout_toRightOf="@+id/img_post_perfil"
+            android:layout_marginLeft="30sp"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:id="@+id/text_post_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6/10/2019"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="30sp"
+            android:layout_toRightOf="@+id/img_post_perfil"
+            android:layout_marginLeft="30sp"
+            android:textSize="16sp"
+            />
+
+    </RelativeLayout>
+
+</merge>
