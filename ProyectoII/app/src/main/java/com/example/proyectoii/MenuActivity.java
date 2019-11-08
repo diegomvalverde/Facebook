@@ -38,8 +38,8 @@ public class MenuActivity extends AppCompatActivity {
         mTabAdapter = new TabAdapter(getSupportFragmentManager());
         mViewPager =  findViewById(R.id.contenido);
 
-
         configurarToolbar(mViewPager);
+
     }
 
     @Override

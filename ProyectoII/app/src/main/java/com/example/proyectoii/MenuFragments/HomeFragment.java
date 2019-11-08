@@ -30,7 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
-    private ArrayList<PostWithUser> posts = new ArrayList<>();
+    private ArrayList<PostWithUser> posts;
     FirebaseDatabase db = FirebaseDatabase.getInstance();
     DatabaseReference myRef = db.getReference();
     private View view;
@@ -41,6 +41,7 @@ public class HomeFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_home,container,false);
         ArrayList<String> amigos = MenuActivity.usuario.getAmigos();
         amigos.add(MenuActivity.usuario.getId());
+        posts = new ArrayList<>();
         obtenerPost(amigos);
         FloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
