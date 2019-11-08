@@ -5,6 +5,16 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
     <ImageView
         android:id="@+id/coverImg"
         android:layout_width="match_parent"
@@ -57,27 +67,24 @@
         android:background="@drawable/baseline_edit_black_48" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/infoTxt"
         android:layout_width="366dp"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/view_pager"
         android:layout_below="@+id/addPostBtn"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="25dp"
         android:layout_marginTop="19dp"
         android:layout_marginEnd="25dp"
-        android:layout_marginBottom="389dp"
-        android:text="Estudia Ingenería en Computación en Tecnolódico de Costa Rica \n Vive en Parrita, Puntarenas, Costa Rica \n De Parrita, Puntarenas, Costa Rica \n" />
+        android:layout_marginBottom="31dp"
+        android:text="" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
-        android:layout_width="307dp"
+        android:layout_width="wrap_content"
         android:layout_height="215dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="52dp"
-        android:layout_marginBottom="143dp" />
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

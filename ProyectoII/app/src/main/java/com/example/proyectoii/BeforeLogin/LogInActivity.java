@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.proyectoii.MenuActivity;
+import com.example.proyectoii.Profile;
 import com.example.proyectoii.R;
 import com.example.proyectoii.Utils.FirebaseConnector;
 
@@ -195,6 +196,7 @@ public class LogInActivity extends AppCompatActivity {
                    Intent intent = new Intent(getApplicationContext(),MenuActivity.class);
                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                    startActivity(intent);
+
                }
                else{
                    Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
