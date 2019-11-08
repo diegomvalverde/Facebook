@@ -93,19 +93,18 @@ public class Post extends AppCompatActivity {
         if (!post.getText().toString().equals("")) {
             FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
             PostObject newPost = new PostObject(firebaseAuth.getUid(), post.getText().toString());
+            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+            String key = mDatabase.child("posts").push().getKey();
             if (imgselected) {
-                String imguri = uploadImage();
-                newPost.setImageURI(imguri);
-                newPost.setTipo("TEXTO");
+                uploadImage(key);
+                newPost.setTipo("IMAGE");
             } else if (vidselected) {
                 EditText vidurl = findViewById(R.id.ytlink);
                 newPost.setVideoUrl(vidurl.getText().toString());
-                newPost.setTipo("IMAGE");
-            } else {
                 newPost.setTipo("VIDEO");
+            } else {
+                newPost.setTipo("TEXT");
             }
-            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-            String key = mDatabase.child("posts").push().getKey();
             mDatabase.child("posts").child(key).setValue(newPost)
             .addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
@@ -152,16 +151,23 @@ public class Post extends AppCompatActivity {
         startActivityForResult(intent, GALLERY_REQUEST_CODE);
     }
 
-    public String uploadImage() {
+    public String uploadImage(final String key) {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         String uri = "FotosPublicaciones/"+mAuth.getUid()+"/"+UUID.randomUUID().toString();
         StorageReference storage = FirebaseStorage.getInstance().getReference();
 
-        StorageReference ref = storage.child(uri);
+        final StorageReference ref = storage.child(uri);
         ref.putFile(selectedImg)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                                mDatabase.child("posts").child(key).child("imageURI").setValue(uri.toString());
+                            }
+                        });
                         Toast.makeText(Post.this, "Foto publicada", Toast.LENGTH_SHORT).show();
                     }
                 })
