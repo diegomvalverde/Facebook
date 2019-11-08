@@ -31,5 +31,19 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/layout_Menu_Transparent"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent">
+
+        <ProgressBar
+            android:layout_width="120sp"
+            android:layout_height="120sp"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -5,8 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
 import android.graphics.PorterDuff;
+import android.opengl.Visibility;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.RelativeLayout;
 
 import com.example.proyectoii.MenuFragments.FriendsFragment;
 import com.example.proyectoii.MenuFragments.HomeFragment;
@@ -26,9 +32,12 @@ import com.google.firebase.database.ValueEventListener;
 
 
 public class MenuActivity extends AppCompatActivity {
-    public static Usuario usuario = new Usuario();
-    private TabAdapter mTabAdapter;
-    private ViewPager mViewPager;
+    public static Usuario usuario = null;
+    private static TabAdapter mTabAdapter;
+    private static ViewPager mViewPager;
+    private static RelativeLayout relativeLayout;
+    private static Context mContext;
+    private static TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,42 +46,43 @@ public class MenuActivity extends AppCompatActivity {
 
         mTabAdapter = new TabAdapter(getSupportFragmentManager());
         mViewPager =  findViewById(R.id.contenido);
+        relativeLayout = findViewById(R.id.layout_Menu_Transparent);
+        mContext = getApplicationContext();
+        tabLayout = findViewById(R.id.tabs);
 
-        configurarToolbar(mViewPager);
+
+
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        getCurrentUser();
+        relativeLayout.setVisibility(View.VISIBLE);
+        getCurrentUser(false);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        getCurrentUser();
-    }
+
 
     /**
      * Configura el toolbar
      */
-    private void configurarToolbar(ViewPager viewPager){
-        TabAdapter adapter = new TabAdapter(getSupportFragmentManager());
-        adapter.addFragment(new HomeFragment());
-        adapter.addFragment(new ProfileFragment());
-        adapter.addFragment(new FriendsFragment());
-        adapter.addFragment(new NotificationFragment());
-        adapter.addFragment(new SearchFragment());
-        adapter.addFragment(new OptionsFragment());
-        viewPager.setAdapter(adapter);
+    private static void configurarToolbar(ViewPager viewPager){
 
-        TabLayout tabLayout = findViewById(R.id.tabs);
+        mTabAdapter.addFragment(new HomeFragment());
+        mTabAdapter.addFragment(new ProfileFragment());
+        mTabAdapter.addFragment(new FriendsFragment());
+        mTabAdapter.addFragment(new NotificationFragment());
+        mTabAdapter.addFragment(new SearchFragment());
+        mTabAdapter.addFragment(new OptionsFragment());
+        viewPager.setAdapter(mTabAdapter);
+
+
 
         tabLayout.setupWithViewPager(viewPager);
 
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_home);
-        int tabIconColor = ContextCompat.getColor(getApplicationContext(), R.color.DarkCyan);
+        int tabIconColor = ContextCompat.getColor(mContext, R.color.DarkCyan);
         tabLayout.getTabAt(0).getIcon().setColorFilter(tabIconColor,PorterDuff.Mode.SRC_IN);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_profile);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_friends);
@@ -85,14 +95,14 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 super.onTabSelected(tab);
-                int tabIconColor = ContextCompat.getColor(getApplicationContext(), R.color.DarkCyan);
+                int tabIconColor = ContextCompat.getColor(mContext, R.color.DarkCyan);
                 tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 super.onTabUnselected(tab);
-                int tabIconColor = ContextCompat.getColor(getApplicationContext(), R.color.ic_gris);
+                int tabIconColor = ContextCompat.getColor(mContext, R.color.ic_gris);
                 tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
             }
 
@@ -106,21 +116,39 @@ public class MenuActivity extends AppCompatActivity {
 
     }
 
-    private void getCurrentUser(){
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        DatabaseReference myRef = database.getReference("usuarios/"+firebaseAuth.getCurrentUser().getUid());
+    public static void getCurrentUser(boolean actualizar){
+        if(usuario == null || actualizar) {
+            Log.i("Resultados","Entre getCurrent");
+            final FirebaseDatabase database = FirebaseDatabase.getInstance();
+            FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+            DatabaseReference myRef = database.getReference("usuarios/" + firebaseAuth.getCurrentUser().getUid());
 
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                usuario =  dataSnapshot.getValue(Usuario.class);
-            }
+            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    usuario = dataSnapshot.getValue(Usuario.class);
+                    Log.i("Resultados","Ya tengo el usuario");
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                    if (mTabAdapter.getCount() == 0) {
+                        configurarToolbar(mViewPager);
+                    }
 
-            }
-        });
+                    relativeLayout.setVisibility(View.GONE);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+        else{
+            Log.i("Resultados","El usuario ya estaba en la app");
+            relativeLayout.setVisibility(View.GONE);
+
+        }
     }
+
+
 }
