@@ -300,6 +300,7 @@ public class LogInActivity extends AppCompatActivity {
                    intent.putExtra("Account",account);
                    intent.putExtra("ID",mAuth.getCurrentUser().getUid());
                    startActivity(intent);
+
                }
                else{
                    mGoogleSignInClient.signOut();
