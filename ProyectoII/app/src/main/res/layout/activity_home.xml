@@ -45,5 +45,41 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/layout_Menu_Error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/error_face"
+            android:layout_width="180sp"
+            android:layout_height="180sp"
+            android:src="@drawable/error_face"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="120sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No hay conexión a internet"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5sp"
+            android:layout_below="@+id/error_face"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Intentar de nuevo"
+            android:layout_marginTop="30sp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/error_face"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:onClick="OnClickReconnect"/>
+    </RelativeLayout>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

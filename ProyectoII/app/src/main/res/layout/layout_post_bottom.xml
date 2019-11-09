@@ -3,7 +3,8 @@
 
     <LinearLayout android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="2">
+        android:weightSum="2"
+        android:background="@drawable/border_top">
 
         <LinearLayout
             android:orientation="vertical"
@@ -11,29 +12,20 @@
             android:layout_width="0dp"
             android:layout_height="80sp"
             android:layout_weight="1"
-            android:background="@drawable/border_postlayout"
             android:padding="0dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                <ImageView
-                    android:id="@+id/img_post_like"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="25sp"
-                    android:background="@drawable/ic_like_white"/>
 
-                <TextView
-                    android:id="@+id/text_post_like"
-                    android:layout_toRightOf="@+id/img_post_like"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="15sp"
-                    android:textColor="@android:color/black"
-                    android:text="Me gusta"/>
+                <com.amrdeveloper.reactbutton.ReactButton
+                    android:id="@+id/likeButton"
+                    android:layout_width="150sp"
+                    android:layout_height="60sp"
+                    android:layout_centerInParent="true"
+                    android:background="@android:color/white"/>
+
+
             </RelativeLayout>
 
         </LinearLayout>
@@ -44,12 +36,12 @@
             android:layout_width="0dp"
             android:layout_height="80sp"
             android:layout_weight="1"
-            android:padding="0dp"
-            android:background="@drawable/border_postlayout">
+            android:padding="0dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <ImageView
                     android:id="@+id/img_post_comentario"
                     android:layout_width="38dp"

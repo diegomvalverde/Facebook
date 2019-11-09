@@ -35,6 +35,12 @@ public class OptionsFragment extends Fragment {
         rLPeril = myView.findViewById(R.id.relativeLayout_Options_Profile);
         rLSalir = myView.findViewById(R.id.relativeLayout_Options_Salir);
 
+        rLPeril.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MenuActivity.setTabSelected(1);
+            }
+        });
         rLSalir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
