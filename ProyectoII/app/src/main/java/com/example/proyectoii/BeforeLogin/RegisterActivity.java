@@ -184,7 +184,6 @@ public class RegisterActivity extends AppCompatActivity {
     public void onClickCrearCuenta(View view) {
         if(!connetionInProgress) {
             if (parametosCorrectos()) {
-                DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
                 String correo = editTextCorreo.getText().toString();
                 String contrasena = editTextContrasena.getText().toString();
                 String nombre = editTextNombre.getText().toString();
@@ -361,12 +360,10 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth.createUserWithEmailAndPassword(nuevoUsuario.getCorreo(),contrasena).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-
-                }
-                else{
+                if(!task.isSuccessful()){
                     Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
                 }
+
                 connetionInProgress = false;
                 progressBar.setVisibility(View.INVISIBLE);
             }

@@ -80,14 +80,22 @@
         android:text="¿Olvidaste tu contraseña?"
         android:onClick="onClickRecuperarContrasena"/>
 
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/btn_LogIn_Google"
+        android:layout_width="160sp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_LogIn_Iniciar"
+        android:layout_marginTop="80sp"
+        android:layout_centerHorizontal="true"
+        />
 
     <Button
         android:id="@+id/btn_LogIn_Registrar"
         android:layout_width="160sp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_LogIn_Iniciar"
+        android:layout_below="@+id/btn_LogIn_Google"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="85sp"
+        android:layout_marginTop="30sp"
         android:background="@color/YellowGreen"
         android:text="Crear cuenta"
         android:textSize="18sp"
