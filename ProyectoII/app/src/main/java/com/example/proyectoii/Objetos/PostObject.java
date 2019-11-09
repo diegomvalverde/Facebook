@@ -2,6 +2,10 @@ package com.example.proyectoii.Objetos;
 
 import androidx.annotation.Nullable;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class PostObject {
 
     private String descripcion;
@@ -9,6 +13,7 @@ public class PostObject {
     private String videoUrl;
     private String authorId;
     private String tipo;
+    private String fecha;
 
     public PostObject () {
 
@@ -17,6 +22,9 @@ public class PostObject {
     public PostObject (String authorId, String descripcion) {
         this.descripcion = descripcion;
         this.authorId = authorId;
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss", Locale.ENGLISH);
+        Date now = new Date();
+        this.fecha = formatter.format(now);
     }
 
     public void setImageURI(String imageURI) {
@@ -53,4 +61,8 @@ public class PostObject {
         return videoUrl;
     }
 
+
+    public String getFecha() {
+        return fecha;
+    }
 }
