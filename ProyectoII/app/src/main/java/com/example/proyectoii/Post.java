@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.example.proyectoii.MenuFragments.HomeFragment;
 import com.example.proyectoii.Objetos.PostObject;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -92,9 +93,10 @@ public class Post extends AppCompatActivity {
         EditText post = findViewById(R.id.postTxt);
         if (!post.getText().toString().equals("")) {
             FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-            PostObject newPost = new PostObject(firebaseAuth.getUid(), post.getText().toString());
+
             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
             String key = mDatabase.child("posts").push().getKey();
+            PostObject newPost = new PostObject(firebaseAuth.getUid(), post.getText().toString(),key);
             if (imgselected) {
                 uploadImage(key);
                 newPost.setTipo("IMAGE");
@@ -110,6 +112,7 @@ public class Post extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     Toast.makeText(Post.this, "Post publicado", Toast.LENGTH_SHORT).show();
+                    HomeFragment.contadorPublicaciones = -1;
                     finish();
                 }
             })

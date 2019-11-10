@@ -20,8 +20,13 @@
 
                 <com.amrdeveloper.reactbutton.ReactButton
                     android:id="@+id/likeButton"
-                    android:layout_width="150sp"
+                    android:layout_width="190sp"
                     android:layout_height="60sp"
+                    android:gravity="start"
+                    android:textAlignment="center"
+                    android:padding="18sp"
+                    android:textAllCaps="false"
+
                     android:layout_centerInParent="true"
                     android:background="@android:color/white"/>
 

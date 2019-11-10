@@ -15,7 +15,8 @@
             android:theme="@style/ActivityWithToolbar" />
         <activity
             android:name=".Post"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/ActivityWithToolbar"/>
         <activity
             android:name=".BeforeLogin.RegisterActivity"
             android:theme="@style/ActivityWithToolbar" />

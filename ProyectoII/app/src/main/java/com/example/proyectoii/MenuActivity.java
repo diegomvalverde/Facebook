@@ -176,7 +176,6 @@ public class MenuActivity extends AppCompatActivity {
 
     public static void getCurrentUser(boolean actualizar){
         if(usuario == null || actualizar) {
-            Log.i("Resultados","Entre getCurrent");
             final FirebaseDatabase database = FirebaseDatabase.getInstance();
             FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
             DatabaseReference myRef = database.getReference("usuarios/" + firebaseAuth.getCurrentUser().getUid());
@@ -185,7 +184,6 @@ public class MenuActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     usuario = dataSnapshot.getValue(Usuario.class);
-                    Log.i("Resultados","Ya tengo el usuario");
 
                     if (mTabAdapter.getCount() == 0) {
                         configurarToolbar(mViewPager);
@@ -198,14 +196,13 @@ public class MenuActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.i("Resultados",databaseError.toString());
+
                 }
 
 
             });
         }
         else{
-            Log.i("Resultados","El usuario ya estaba en la app");
             cargandoLayout.setVisibility(View.GONE);
 
         }
