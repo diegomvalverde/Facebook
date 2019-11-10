@@ -17,6 +17,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amrdeveloper.reactbutton.ReactButton;
+import com.amrdeveloper.reactbutton.Reaction;
 import com.example.proyectoii.Objetos.PostObject;
 import com.example.proyectoii.Objetos.PostWithUser;
 import com.example.proyectoii.Objetos.UserPreview;
@@ -161,7 +163,8 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
                         PostObject post = dss.getValue(PostObject.class);
                         String nombre = dataSnapshot.child("usuarios").child(post.getAuthorId()).child("nombre").getValue().toString();
                         nombre += " " + dataSnapshot.child("usuarios").child(post.getAuthorId()).child("apellido").getValue().toString();
-                        postsList.add(new PostWithUser(post.getAuthorId(), post.getDescripcion(), post.getTipo(), nombre));
+                        String imgPostAuthor = dataSnapshot.child("usuarios").child(post.getAuthorId()).child("linkImgPerfil").getValue().toString();
+                        postsList.add(new PostWithUser(post.getAuthorId(), post.getDescripcion(), post.getTipo(),post.getIdPost(), nombre,imgPostAuthor));
                     }
                 }
             }
@@ -194,14 +197,15 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
     }
 
     @Override
-    public void onLikeClick(PostWithUser postWithUser) {
+    public void onLikeClick(PostWithUser postWithUser, ReactButton reactButton) {
 
     }
 
     @Override
-    public void onLikeLongClick(PostWithUser postWithUser) {
+    public void onLikeLongClick(PostWithUser postWithUser, Reaction reaction) {
 
     }
+
 
     @Override
     public void onCommentClick(PostWithUser postWithUser) {

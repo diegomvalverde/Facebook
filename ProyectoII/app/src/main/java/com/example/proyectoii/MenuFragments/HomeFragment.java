@@ -101,7 +101,7 @@ public class HomeFragment extends Fragment implements RecyclerViewPostAdapter.On
                         Usuario usuario = dataSnapshot.child("usuarios").child(postObject.getAuthorId()).getValue(Usuario.class);
 
                         String username = usuario.getNombre() + " " + usuario.getApellido();
-                        PostWithUser post = new PostWithUser(usuario.getId(),postObject.getDescripcion(),postObject.getTipo(),postObject.getIdPost(),username);
+                        PostWithUser post = new PostWithUser(usuario.getId(),postObject.getDescripcion(),postObject.getTipo(),postObject.getIdPost(),username,usuario.getLinkImgPerfil());
 
                         for(DataSnapshot reactionSnapshot: singleSnapshot.child("reacciones").getChildren()){
                             String autorReaccion = reactionSnapshot.child("idAutor").getValue(String.class);
