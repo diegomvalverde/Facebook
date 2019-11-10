@@ -72,10 +72,19 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
             }
         });
 
-        buscar.setOnClickListener(new View.OnClickListener() {
+        search.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View v) {
-                Editable s = search.getText();
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
                 if (users.isChecked()) {
                     if (!s.toString().isEmpty()) {
                         searchUser(s.toString());
@@ -89,6 +98,7 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
                     }
                     iniciarRecyclerView();
                 }
+
             }
         });
 

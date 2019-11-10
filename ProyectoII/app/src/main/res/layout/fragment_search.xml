@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/criteriobusqueda"
-        android:layout_centerHorizontal="true">
+        android:layout_marginStart="90dp">
 
         <CheckBox
             android:id="@+id/userson"
@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/opcionusuarios"
-        android:layout_centerHorizontal="true">
+        android:layout_marginStart="90dp">
 
         <CheckBox
             android:id="@+id/postson"
@@ -64,9 +64,11 @@
         android:text="@string/search"
         android:textColor="@android:color/white"
         android:background="@color/colorPrimary"
-        android:layout_below="@id/opcionposts"
+        android:layout_below="@id/criteriobusqueda"
+        android:layout_toEndOf="@id/opcionusuarios"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="40dp"/>
 
 
     <androidx.recyclerview.widget.RecyclerView
