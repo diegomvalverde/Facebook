@@ -63,6 +63,12 @@ public class RecyclerViewPostAdapter extends RecyclerView.Adapter<RecyclerViewPo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.postWithUser = post.get(position);
 
+        if (!holder.postWithUser.getAuthorPhoto().isEmpty()){
+            Glide.with(mContext).load(holder.postWithUser.getAuthorPhoto()).into(holder.imgPerfil);
+        }
+        else{
+            holder.imgPerfil.setImageResource(R.drawable.ic_profile);
+        }
 
         switch (post.get(position).getTipo()){
             case "IMAGE":

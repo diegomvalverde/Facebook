@@ -166,8 +166,9 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
                         PostObject post = dss.getValue(PostObject.class);
                         String nombre = dataSnapshot.child("usuarios").child(post.getAuthorId()).child("nombre").getValue().toString();
                         nombre += " " + dataSnapshot.child("usuarios").child(post.getAuthorId()).child("apellido").getValue().toString();
-                        String profileimg = dataSnapshot.child("usuarios").child(post.getAuthorId()).child("linkImgPerfil").getValue().toString();
-                        postsList.add(new PostWithUser(post.getAuthorId(), post.getDescripcion(), post.getTipo(), post.getIdPost(), nombre, profileimg));
+                        String imgPostAuthor = dataSnapshot.child("usuarios").child(post.getAuthorId()).child("linkImgPerfil").getValue().toString();
+                        postsList.add(new PostWithUser(post.getAuthorId(), post.getDescripcion(), post.getTipo(),post.getIdPost(), nombre,imgPostAuthor));
+
                     }
                 }
             }
@@ -258,6 +259,7 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
 
         }
     }
+
 
     @Override
     public void onCommentClick(PostWithUser postWithUser) {

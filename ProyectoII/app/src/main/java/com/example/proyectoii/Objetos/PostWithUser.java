@@ -114,4 +114,11 @@ public class PostWithUser extends PostObject  {
         this.comentarios = comentarios;
     }
 
+    public String getAuthorPhoto() {
+        return authorPhoto;
+    }
+
+    public void setAuthorPhoto(String authorPhoto) {
+        this.authorPhoto = authorPhoto;
+    }
 }
