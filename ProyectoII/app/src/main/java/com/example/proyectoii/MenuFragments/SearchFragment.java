@@ -32,7 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.OnPostListener{
 
     private CheckBox users;
     private CheckBox posts;
@@ -180,9 +180,34 @@ public class SearchFragment extends Fragment {
 
     public void iniciarRecyclerView(){
         RecyclerView recyclerView = view.findViewById(R.id.resultados);
-        RecyclerViewPostAdapter adapter = new RecyclerViewPostAdapter(getContext(),postsList);
+        RecyclerViewPostAdapter adapter = new RecyclerViewPostAdapter(getContext(),postsList, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+    }
+
+    @Override
+    public void onPostClick(PostWithUser postWithUser) {
+
+    }
+
+    @Override
+    public void onLikeClick(PostWithUser postWithUser) {
+
+    }
+
+    @Override
+    public void onLikeLongClick(PostWithUser postWithUser) {
+
+    }
+
+    @Override
+    public void onCommentClick(PostWithUser postWithUser) {
+
+    }
+
+    @Override
+    public void onProfileClick(String idUser) {
+
     }
 }
 
