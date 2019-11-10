@@ -1,47 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-     android:layout_width="match_parent"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_margin="15sp"
     android:layout_height="wrap_content">
 
     <RelativeLayout
-        android:id="@+id/relativeLayout_post_top"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        >
 
-        <include layout="@layout/layout_post_top"/>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/relativeLayout_post_content"
-        android:layout_below="@+id/relativeLayout_post_top"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border_postlayout">
-        <TextView
-            android:id="@+id/text_post"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15sp"
-            android:textSize="17sp"
-            android:text="Texto de prueba "/>
-        <ImageView
-            android:layout_below="@+id/text_post"
-            android:id="@+id/img_post"
+        <RelativeLayout
+            android:id="@+id/relativeLayout_post_top"
             android:layout_width="match_parent"
-            android:layout_height="0sp"
-            android:layout_margin="10sp"
-            android:src="@mipmap/ic_launcher"/>
+            android:layout_height="wrap_content">
 
+            <include layout="@layout/layout_post_top" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout_post_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relativeLayout_post_top"
+            android:layout_marginTop="5sp"
+            >
+
+            <ImageView
+                android:id="@+id/img_post"
+                android:layout_width="match_parent"
+                android:layout_height="0sp"
+                android:layout_below="@+id/text_post"
+                android:layout_margin="10sp"
+                android:src="@mipmap/ic_launcher" />
+
+            <TextView
+                android:id="@+id/text_post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15sp"
+                android:text="Texto de prueba "
+                android:textSize="17sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout_post_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relativeLayout_post_content">
+
+            <include layout="@layout/layout_post_bottom" />
+
+        </RelativeLayout>
     </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/relativeLayout_post_bottom"
-        android:layout_below="@+id/relativeLayout_post_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <include layout="@layout/layout_post_bottom"/>
-
-    </RelativeLayout>
-
-</RelativeLayout>
+</androidx.cardview.widget.CardView>

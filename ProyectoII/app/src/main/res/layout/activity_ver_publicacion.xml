@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".VerPublicacion">
+    <Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="60sp"
+        android:background="@color/colorPrimary">
+
+        <Button
+            android:id="@+id/btn_Register_back"
+            android:layout_width="25sp"
+            android:layout_height="23sp"
+            android:background="@drawable/ic_arrow_back"
+            android:onClick="onClickBack" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:textColor="@android:color/white"
+            android:layout_marginStart="40sp"
+            android:text="Publicación"/>
+
+    </Toolbar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60sp"
+        >
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout_vPublicacion_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/layout_post_top" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout_vPublicacion_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relativeLayout_vPublicacion_top"
+            android:layout_marginTop="5sp"
+            >
+
+            <ImageView
+                android:id="@+id/img_vPublicacion"
+                android:layout_width="match_parent"
+                android:layout_height="0sp"
+                android:layout_below="@+id/text_post"
+                android:layout_margin="10sp"
+                android:src="@mipmap/ic_launcher" />
+
+            <TextView
+                android:id="@+id/text_vPublicacion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15sp"
+                android:text="Texto de prueba "
+                android:textSize="17sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout_vPublicacion_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relativeLayout_vPublicacion_content">
+
+            <include layout="@layout/layout_post_bottom" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout_vPublicacion_miComentario"
+            android:layout_below="@id/relativeLayout_vPublicacion_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15sp">
+            
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_vPublicacion_miComentario"
+                android:layout_width="45sp"
+                android:layout_height="45sp"
+                android:src="@drawable/ic_profile"/>
+
+            <EditText
+                android:id="@+id/editText_vPublicacion_Cometario"
+                android:layout_width="220sp"
+                android:layout_height="45sp"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/img_vPublicacion_miComentario"
+                android:layout_marginStart="15sp"
+                android:textSize="16sp"
+                android:hint="Escribe un comentario..."
+                android:background="@drawable/round_border"/>
+
+            <Button
+                android:layout_width="80sp"
+                android:layout_height="45sp"
+                android:layout_toEndOf="@+id/editText_vPublicacion_Cometario"
+                android:layout_marginStart="10sp"
+                android:background="@color/colorPrimary"
+                android:textColor="@android:color/white"
+                android:text="Publicar"
+                android:textAllCaps="false"/>
+            
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="10sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relativeLayout_vPublicacion_miComentario"/>
+    </RelativeLayout>
+
+</RelativeLayout>

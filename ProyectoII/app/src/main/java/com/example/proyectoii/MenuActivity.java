@@ -7,6 +7,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.opengl.Visibility;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,21 +37,33 @@ public class MenuActivity extends AppCompatActivity {
     public static Usuario usuario = null;
     private static TabAdapter mTabAdapter;
     private static ViewPager mViewPager;
-    private static RelativeLayout relativeLayout;
+    private static RelativeLayout cargandoLayout,errorLayout;
     private static Context mContext;
     private static TabLayout tabLayout;
+    private static Boolean isGettingUser = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        ConnectivityManager connectivityManager;
         mTabAdapter = new TabAdapter(getSupportFragmentManager());
         mViewPager =  findViewById(R.id.contenido);
-        relativeLayout = findViewById(R.id.layout_Menu_Transparent);
+        cargandoLayout = findViewById(R.id.layout_Menu_Transparent);
+        errorLayout = findViewById(R.id.layout_Menu_Error);
         mContext = getApplicationContext();
         tabLayout = findViewById(R.id.tabs);
-
+        if (checkNetworkConnectionStatus()) {
+            if (!isGettingUser) {
+                cargandoLayout.setVisibility(View.VISIBLE);
+                isGettingUser = true;
+                getCurrentUser(false);
+            }
+        }
+        else{
+            cargandoLayout.setVisibility(View.INVISIBLE);
+            errorLayout.setVisibility(View.VISIBLE);
+        }
 
 
 
@@ -58,11 +72,46 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        relativeLayout.setVisibility(View.VISIBLE);
-        getCurrentUser(false);
+        if (checkNetworkConnectionStatus()) {
+            if (!isGettingUser) {
+                cargandoLayout.setVisibility(View.VISIBLE);
+                isGettingUser = true;
+                getCurrentUser(false);
+            }
+        }
+        else{
+            cargandoLayout.setVisibility(View.INVISIBLE);
+            errorLayout.setVisibility(View.VISIBLE);
+        }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (checkNetworkConnectionStatus()) {
+            if (!isGettingUser) {
+                cargandoLayout.setVisibility(View.VISIBLE);
+                isGettingUser = true;
+                getCurrentUser(false);
+            }
+        }
+        else{
+            cargandoLayout.setVisibility(View.INVISIBLE);
+            errorLayout.setVisibility(View.VISIBLE);
+        }
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        isGettingUser = false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        isGettingUser = false;
+    }
 
     /**
      * Configura el toolbar
@@ -116,6 +165,15 @@ public class MenuActivity extends AppCompatActivity {
 
     }
 
+    public static void setTabSelected(int i){
+
+        TabLayout.Tab tab = tabLayout.getTabAt(i);
+        tab.select();
+
+
+
+    }
+
     public static void getCurrentUser(boolean actualizar){
         if(usuario == null || actualizar) {
             Log.i("Resultados","Entre getCurrent");
@@ -133,20 +191,52 @@ public class MenuActivity extends AppCompatActivity {
                         configurarToolbar(mViewPager);
                     }
 
-                    relativeLayout.setVisibility(View.GONE);
+                    cargandoLayout.setVisibility(View.GONE);
+                    isGettingUser = false;
 
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                    Log.i("Resultados",databaseError.toString());
                 }
+
+
             });
         }
         else{
             Log.i("Resultados","El usuario ya estaba en la app");
-            relativeLayout.setVisibility(View.GONE);
+            cargandoLayout.setVisibility(View.GONE);
 
+        }
+    }
+
+
+    public void OnClickReconnect(View view){
+        if (checkNetworkConnectionStatus()) {
+            errorLayout.setVisibility(View.GONE);
+            if (!isGettingUser) {
+                cargandoLayout.setVisibility(View.VISIBLE);
+                isGettingUser = true;
+                getCurrentUser(false);
+            }
+        }
+        else{
+            cargandoLayout.setVisibility(View.INVISIBLE);
+            errorLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+
+    private boolean checkNetworkConnectionStatus() {
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeInfo = connMgr.getActiveNetworkInfo();
+        if (activeInfo != null && activeInfo.isConnected()){ //connected with either mobile or wifi
+            return  true;
+        }
+        else { //no internet connection
+            return false;
         }
     }
 

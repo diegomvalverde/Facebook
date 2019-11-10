@@ -9,8 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".BeforeLogin.ExtraInfoActivity"
-            android:theme="@style/ActivityWithToolbar"></activity>
+        <activity android:name=".VerPublicacion"></activity>
+        <activity
+            android:name=".BeforeLogin.ExtraInfoActivity"
+            android:theme="@style/ActivityWithToolbar" />
         <activity
             android:name=".Post"
             android:windowSoftInputMode="adjustResize" />

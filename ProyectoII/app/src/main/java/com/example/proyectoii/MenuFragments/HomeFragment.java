@@ -29,7 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements RecyclerViewPostAdapter.OnPostListener {
     private ArrayList<PostWithUser> posts;
     FirebaseDatabase db = FirebaseDatabase.getInstance();
     DatabaseReference myRef = db.getReference();
@@ -91,8 +91,33 @@ public class HomeFragment extends Fragment {
 
     public void iniciarRecyclerView(){
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView_home);
-        RecyclerViewPostAdapter adapter = new RecyclerViewPostAdapter(getContext(),posts);
+        RecyclerViewPostAdapter adapter = new RecyclerViewPostAdapter(getContext(),posts,this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+    }
+
+    @Override
+    public void onPostClick(PostWithUser postWithUser) {
+
+    }
+
+    @Override
+    public void onLikeClick(PostWithUser postWithUser) {
+
+    }
+
+    @Override
+    public void onLikeLongClick(PostWithUser postWithUser) {
+
+    }
+
+    @Override
+    public void onCommentClick(PostWithUser postWithUser) {
+
+    }
+
+    @Override
+    public void onProfileClick(String idUser) {
+
     }
 }
