@@ -16,9 +16,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.proyectoii.Objetos.PostObject;
+import com.example.proyectoii.Objetos.PostWithUser;
 import com.example.proyectoii.Objetos.UserPreview;
 import com.example.proyectoii.Objetos.Usuario;
 import com.example.proyectoii.R;
+import com.example.proyectoii.Utils.RecyclerViewPostAdapter;
 import com.example.proyectoii.Utils.RecyclerViewUserAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,6 +39,8 @@ public class SearchFragment extends Fragment {
     private EditText search;
     private ArrayList<UserPreview> usersList;
     private View view;
+    private ArrayList<PostWithUser> postsList;
+    private String nombre;
 
     @Nullable
     @Override
@@ -47,6 +52,8 @@ public class SearchFragment extends Fragment {
         posts = view.findViewById(R.id.postson);
         search = view.findViewById(R.id.criteriobusqueda);
         usersList = new ArrayList<UserPreview>();
+        postsList = new ArrayList<>();
+        nombre = "";
 
         users.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,12 +82,20 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!s.toString().isEmpty()) {
-                    search(s.toString());
-                } else {
-                    search("");
+                if (users.isChecked()) {
+                    if (!s.toString().isEmpty()) {
+                        searchUser(s.toString());
+                    } else {
+                        searchUser("");
+                    }
+                    setAdapter();
+                } else if (posts.isChecked()) {
+                    if (!s.toString().isEmpty()) {
+                        searchPost(s.toString());
+                    }
+                    iniciarRecyclerView();
                 }
-                setAdapter();
+
             }
         });
 
@@ -99,7 +114,7 @@ public class SearchFragment extends Fragment {
         }
     }
 
-    public void search(String s) {
+    public void searchUser(String s) {
         usersList.clear();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         Query query = databaseReference.child("usuarios").orderByChild("nombre")
@@ -126,10 +141,47 @@ public class SearchFragment extends Fragment {
         });
     }
 
+
+
+    public void searchPost(final String s) {
+        postsList.clear();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        Query query = databaseReference.orderByPriority();
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Boolean found;
+                for (DataSnapshot dss: dataSnapshot.child("posts").getChildren()) {
+                    String descrp = dss.child("descripcion").getValue().toString();
+                    found = descrp.contains(s);
+                    if (found) {
+                        PostObject post = dss.getValue(PostObject.class);
+                        String nombre = dataSnapshot.child("usuarios").child(post.getAuthorId()).child("nombre").getValue().toString();
+                        nombre += " " + dataSnapshot.child("usuarios").child(post.getAuthorId()).child("apellido").getValue().toString();
+                        postsList.add(new PostWithUser(post.getAuthorId(), post.getDescripcion(), post.getTipo(), nombre));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
     public void setAdapter() {
         RecyclerView recyclerView = view.findViewById(R.id.resultados);
         RecyclerViewUserAdapter userAdapter = new RecyclerViewUserAdapter(getContext(), usersList);
         recyclerView.setAdapter(userAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+    }
+
+    public void iniciarRecyclerView(){
+        RecyclerView recyclerView = view.findViewById(R.id.resultados);
+        RecyclerViewPostAdapter adapter = new RecyclerViewPostAdapter(getContext(),postsList);
+        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
     }
 }
