@@ -1,5 +1,7 @@
 package com.example.proyectoii.Objetos;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -17,14 +19,14 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-public class PostObject  {
-    private String idPost;
-    private String descripcion;
-    private String imageURI;
-    private String videoUrl;
-    private String authorId;
-    private String tipo;
-    private String fecha;
+public class PostObject implements Parcelable {
+    protected String idPost;
+    protected String descripcion;
+    protected String imageURI;
+    protected String videoUrl;
+    protected String authorId;
+    protected String tipo;
+    protected String fecha;
 
 
     public PostObject () {
@@ -42,8 +44,37 @@ public class PostObject  {
         this.idPost = idPost;
     }
 
+    public PostObject(String idPost, String descripcion, String imageURI, String videoUrl, String authorId, String tipo, String fecha) {
+        this.idPost = idPost;
+        this.descripcion = descripcion;
+        this.imageURI = imageURI;
+        this.videoUrl = videoUrl;
+        this.authorId = authorId;
+        this.tipo = tipo;
+        this.fecha = fecha;
+    }
 
+    protected PostObject(Parcel in) {
+        idPost = in.readString();
+        descripcion = in.readString();
+        imageURI = in.readString();
+        videoUrl = in.readString();
+        authorId = in.readString();
+        tipo = in.readString();
+        fecha = in.readString();
+    }
 
+    public static final Creator<PostObject> CREATOR = new Creator<PostObject>() {
+        @Override
+        public PostObject createFromParcel(Parcel in) {
+            return new PostObject(in);
+        }
+
+        @Override
+        public PostObject[] newArray(int size) {
+            return new PostObject[size];
+        }
+    };
 
     public String obtenerTimestampDifference(){
 
@@ -57,7 +88,6 @@ public class PostObject  {
         try{
             timestamp = sdf.parse(postTimestamp);
             int diferenciaSegundos = Math.round(((today.getTime() - timestamp.getTime()) / 1000 ));
-            Log.i("Resultados","Hora actual: "+today.toString() +" / Hora post: " +timestamp.toString() +" / "+postTimestamp );
             if (diferenciaSegundos <  60){
                 difference = "hace un momento";
             }
@@ -180,5 +210,21 @@ public class PostObject  {
 
     public void setAuthorId(String authorId) {
         this.authorId = authorId;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(idPost);
+        parcel.writeString(descripcion);
+        parcel.writeString(imageURI);
+        parcel.writeString(videoUrl);
+        parcel.writeString(authorId);
+        parcel.writeString(tipo);
+        parcel.writeString(fecha);
     }
 }

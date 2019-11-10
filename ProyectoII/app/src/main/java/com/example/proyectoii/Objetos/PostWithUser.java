@@ -3,13 +3,15 @@ package com.example.proyectoii.Objetos;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 import com.example.proyectoii.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PostWithUser extends PostObject  {
+public class PostWithUser extends PostObject implements Parcelable  {
     private String authorName;
     private String authorPhoto;
     private ArrayList<Reaccion> reacciones;
@@ -25,10 +27,58 @@ public class PostWithUser extends PostObject  {
 
     }
 
-    protected PostWithUser(Parcel in) {
-        authorName = in.readString();
+    public PostWithUser(String idPost, String descripcion, String imageURI, String videoUrl, String authorId, String tipo, String fecha, String authorName, String authorPhoto, ArrayList<Reaccion> reacciones, ArrayList<Comentario> comentarios) {
+        super(idPost, descripcion, imageURI, videoUrl, authorId, tipo, fecha);
+        this.authorName = authorName;
+        this.authorPhoto = authorPhoto;
+        if(reacciones == null){
+            this.reacciones = new ArrayList<>();
+        }
+        else{
+            this.reacciones = reacciones;
+        }
+
+        if(comentarios == null){
+            this.comentarios = new ArrayList<>();
+        }
+        else{
+            this.comentarios = comentarios;
+        }
+
+
     }
 
+    protected PostWithUser(Parcel in) {
+        super(in);
+        authorName = in.readString();
+        authorPhoto = in.readString();
+        reacciones = in.createTypedArrayList(Reaccion.CREATOR);
+        comentarios = in.createTypedArrayList(Comentario.CREATOR);
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(authorName);
+        dest.writeString(authorPhoto);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<PostWithUser> CREATOR = new Creator<PostWithUser>() {
+        @Override
+        public PostWithUser createFromParcel(Parcel in) {
+            return new PostWithUser(in);
+        }
+
+        @Override
+        public PostWithUser[] newArray(int size) {
+            return new PostWithUser[size];
+        }
+    };
 
     public String getAuthorName() {
         return authorName;
@@ -120,5 +170,23 @@ public class PostWithUser extends PostObject  {
 
     public void setAuthorPhoto(String authorPhoto) {
         this.authorPhoto = authorPhoto;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        String msg = "Autor : \n\tId: " + this.authorId +"\n\t Nombre: " +this.authorName + "\n\t Foto: " + this.authorPhoto +
+                "Post : \n\tId" + this.idPost + "\n\tTipo: " + this.tipo + "\n\tImagen: " + this.imageURI + "\n\tVideo: " + this.videoUrl + "\n\tDescripcion: " +this.descripcion ;
+        msg += "\n\tReacciones: ";
+
+        for (Reaccion reaccion: this.reacciones){
+            msg += "\n\t\tReaccion: \n\t\t\tAutor: " + reaccion.getIdAutor() + "\n\t\t\tTipo:" + reaccion.getTipoReaccion();
+        }
+        msg += "\n\tComentarios: \n";
+        for (Comentario comentario: this.comentarios){
+            msg += "\n\t\tComentario: \n\t\t\tAutor: " + comentario.getIdAutor() + "\n\t\t\tTexto:" + comentario.getComentario();
+        }
+
+        return msg;
     }
 }

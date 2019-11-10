@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".VerPublicacion">
+    tools:context=".VerPublicacionActivity">
     <Toolbar
         android:layout_width="match_parent"
         android:layout_height="60sp"
         android:background="@color/colorPrimary">
 
         <Button
-            android:id="@+id/btn_Register_back"
+            android:id="@+id/btn_vPublicacion_back"
             android:layout_width="25sp"
             android:layout_height="23sp"
             android:background="@drawable/ic_arrow_back"
@@ -52,12 +52,11 @@
             >
 
             <ImageView
-                android:id="@+id/img_vPublicacion"
+                android:id="@+id/img_vPublicacion_post"
                 android:layout_width="match_parent"
                 android:layout_height="0sp"
                 android:layout_below="@+id/text_post"
-                android:layout_margin="10sp"
-                android:src="@mipmap/ic_launcher" />
+                android:layout_marginTop="20sp" />
 
             <TextView
                 android:id="@+id/text_vPublicacion"
@@ -70,10 +69,18 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/relativeLayout_vPublicacion_reacciones"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relativeLayout_vPublicacion_content">
+            <include layout="@layout/layout_post_reacciones" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/relativeLayout_vPublicacion_bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/relativeLayout_vPublicacion_content">
+            android:layout_below="@+id/relativeLayout_vPublicacion_reacciones">
 
             <include layout="@layout/layout_post_bottom" />
 
@@ -116,6 +123,7 @@
         </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_vPublicacion_comentarios"
             android:layout_marginTop="10sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
