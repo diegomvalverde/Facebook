@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
@@ -41,6 +42,7 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
     private View view;
     private ArrayList<PostWithUser> postsList;
     private String nombre;
+    private Button buscar;
 
     @Nullable
     @Override
@@ -54,6 +56,7 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
         usersList = new ArrayList<UserPreview>();
         postsList = new ArrayList<>();
         nombre = "";
+        buscar = view.findViewById(R.id.buscarbtn);
 
         users.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,19 +72,10 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
             }
         });
 
-        search.addTextChangedListener(new TextWatcher() {
+        buscar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
+            public void onClick(View v) {
+                Editable s = search.getText();
                 if (users.isChecked()) {
                     if (!s.toString().isEmpty()) {
                         searchUser(s.toString());
@@ -95,7 +89,6 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
                     }
                     iniciarRecyclerView();
                 }
-
             }
         });
 
