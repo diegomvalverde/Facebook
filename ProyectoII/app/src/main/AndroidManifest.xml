@@ -16,17 +16,15 @@
             android:name=".VerPublicacionActivity"
             android:theme="@style/ActivityWithToolbar"></activity>
 
-        <activity android:name=".VerPublicacionActivity"
-            android:theme="@style/ActivityWithToolbar">
+        <activity android:name=".ProfileView"></activity>
 
-        </activity>
         <activity
             android:name=".BeforeLogin.ExtraInfoActivity"
             android:theme="@style/ActivityWithToolbar" />
         <activity
             android:name=".Post"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/ActivityWithToolbar"/>
+            android:theme="@style/ActivityWithToolbar"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".BeforeLogin.RegisterActivity"
             android:theme="@style/ActivityWithToolbar" />
@@ -41,7 +39,7 @@
         </activity>
         <activity android:name=".MenuActivity" />
     </application>
-
     <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
+
