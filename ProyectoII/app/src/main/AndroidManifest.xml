@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.proyectoii">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,17 +11,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".VerPublicacionActivity"
-            android:theme="@style/ActivityWithToolbar">
-
-        </activity>
+        <activity android:name=".ProfileView"></activity>
+        <activity
+            android:name=".VerPublicacionActivity"
+            android:theme="@style/ActivityWithToolbar"></activity>
         <activity
             android:name=".BeforeLogin.ExtraInfoActivity"
             android:theme="@style/ActivityWithToolbar" />
         <activity
             android:name=".Post"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/ActivityWithToolbar"/>
+            android:theme="@style/ActivityWithToolbar"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".BeforeLogin.RegisterActivity"
             android:theme="@style/ActivityWithToolbar" />
@@ -34,7 +36,5 @@
         </activity>
         <activity android:name=".MenuActivity" />
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

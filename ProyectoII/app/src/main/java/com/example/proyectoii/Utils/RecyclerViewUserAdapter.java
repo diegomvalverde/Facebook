@@ -1,6 +1,7 @@
 package com.example.proyectoii.Utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.proyectoii.Objetos.UserPreview;
+import com.example.proyectoii.ProfileView;
 import com.example.proyectoii.R;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -45,13 +47,21 @@ public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUs
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         String profilePicLink = userslist.get(position).getProfilepic();
         if (!profilePicLink.isEmpty()) {
             Uri muri = Uri.parse(profilePicLink);
             Glide.with(mContext).load(muri).into(holder.profilepic);
         }
         holder.nombre.setText(userslist.get(position).getNombre());
+        holder.nombre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, ProfileView.class);
+                intent.putExtra("USERID",userslist.get(position).id);
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -69,6 +79,5 @@ public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUs
             profilepic = itemView.findViewById(R.id.profilepic);
             nombre = itemView.findViewById(R.id.nombreuser);
         }
-
     }
 }
