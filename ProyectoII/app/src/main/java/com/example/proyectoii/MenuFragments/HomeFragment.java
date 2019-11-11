@@ -26,6 +26,7 @@ import com.example.proyectoii.Objetos.Usuario;
 import com.example.proyectoii.Post;
 import com.example.proyectoii.R;
 import com.example.proyectoii.Utils.RecyclerViewPostAdapter;
+import com.example.proyectoii.VerPublicacionActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -84,7 +85,7 @@ public class HomeFragment extends Fragment implements RecyclerViewPostAdapter.On
                 for(DataSnapshot singleSnapshot: dataSnapshot.child("posts").getChildren()){
                     dataSnapshots.add(singleSnapshot);
                 }
-                Log.i("Resultados",String.valueOf(contadorPublicaciones));
+
                 if(contadorPublicaciones == -1){
                     contadorPublicaciones = dataSnapshots.size();
                     posts = new ArrayList<>();
@@ -155,7 +156,9 @@ public class HomeFragment extends Fragment implements RecyclerViewPostAdapter.On
 
     @Override
     public void onPostClick(PostWithUser postWithUser) {
-        Toast.makeText(getContext(), postWithUser.getImageURI(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getContext(), VerPublicacionActivity.class);
+        intent.putExtra("Post",postWithUser);
+        startActivity(intent);
     }
 
     @Override
@@ -220,12 +223,15 @@ public class HomeFragment extends Fragment implements RecyclerViewPostAdapter.On
 
     @Override
     public void onCommentClick(PostWithUser postWithUser) {
-
+        Intent intent = new Intent(getContext(), VerPublicacionActivity.class);
+        intent.putExtra("Post",postWithUser);
+        intent.putExtra("Comentario",true);
+        startActivity(intent);
     }
 
     @Override
     public void onProfileClick(String idUser) {
-
+        Toast.makeText(getContext(), "Abrir perfil de " + idUser, Toast.LENGTH_SHORT).show();
     }
 
 
@@ -240,7 +246,6 @@ public class HomeFragment extends Fragment implements RecyclerViewPostAdapter.On
                     .setValue(reaccion);
         }
         else{
-            Log.i("Resultados","Entre");
             myRef.child("posts")
                     .child(post.getIdPost())
                     .child("reacciones")

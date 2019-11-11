@@ -153,29 +153,34 @@ public class RecyclerViewPostAdapter extends RecyclerView.Adapter<RecyclerViewPo
         View view;
         RelativeLayout layoutReacciones;
         RelativeLayout contentLayout;
+        RelativeLayout profileLayout;
 
         public ViewHolder(@NonNull View itemView,OnPostListener onPostListener) {
             super(itemView);
             view = itemView;
-            contentLayout = itemView.findViewById(R.id.relativeLayout_post_content);
-            layoutReacciones = itemView.findViewById(R.id.relativeLayout_reacciones);
-            textNumComentarios = itemView.findViewById(R.id.text_numComentarios);
-            textNumReacciones = itemView.findViewById(R.id.text_nunReacciones);
-            reaccionTop1 = itemView.findViewById(R.id.img_reacciones_1);
-            reaccionTop2 = itemView.findViewById(R.id.img_reacciones_2);
-            reaccionTop3 = itemView.findViewById(R.id.img_reacciones_3);
             imgPerfil = itemView.findViewById(R.id.img_post_perfil);
             imgPost = itemView.findViewById(R.id.img_post);
             textNombreAutor = itemView.findViewById(R.id.text_post_username);
             textFechaPost = itemView.findViewById(R.id.text_post_date);
             textPost = itemView.findViewById(R.id.text_post);
             reactButton = itemView.findViewById(R.id.likeButton);
+            textNumComentarios = itemView.findViewById(R.id.text_numComentarios);
+            textNumReacciones = itemView.findViewById(R.id.text_nunReacciones);
+            reaccionTop1 = itemView.findViewById(R.id.img_reacciones_1);
+            reaccionTop2 = itemView.findViewById(R.id.img_reacciones_2);
+            reaccionTop3 = itemView.findViewById(R.id.img_reacciones_3);
+            layoutReacciones = itemView.findViewById(R.id.relativeLayout_reacciones);
+            contentLayout = itemView.findViewById(R.id.relativeLayout_post_content);
             this.onPostListener = onPostListener;
+            
+            
             reactButton.setReactDismissListener(this);
             reactButton.setOnClickListener(this);
             reactButton.setDefaultReaction(reactions[0]);
             reactButton.setReactions(reactions[1],reactions[2],reactions[3],reactions[4],reactions[5],reactions[6]);
             contentLayout.setOnClickListener(this);
+            profileLayout = itemView.findViewById(R.id.relativeLayout_post_top);
+            profileLayout.setOnClickListener(this);
         }
 
         @Override
