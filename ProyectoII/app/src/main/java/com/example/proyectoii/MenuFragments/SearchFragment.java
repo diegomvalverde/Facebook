@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,8 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.amrdeveloper.reactbutton.ReactButton;
 import com.amrdeveloper.reactbutton.Reaction;
+import com.example.proyectoii.MenuActivity;
 import com.example.proyectoii.Objetos.PostObject;
 import com.example.proyectoii.Objetos.PostWithUser;
+import com.example.proyectoii.Objetos.Reaccion;
 import com.example.proyectoii.Objetos.UserPreview;
 import com.example.proyectoii.Objetos.Usuario;
 import com.example.proyectoii.R;
@@ -119,6 +122,17 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
         }
     }
 
+    public boolean userInLista(String newid) {
+        boolean isIn = false;
+        for (int i=0; i<usersList.size(); i++) {
+            String id = usersList.get(i).getId();
+            if (newid.equals(id)) {
+                isIn = true;
+            }
+        }
+        return isIn;
+    }
+
     public void searchUser(String s) {
         usersList.clear();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -135,6 +149,32 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
                         final UserPreview userPreview = new UserPreview(nombre, dss.child("id").getValue().toString());
                         userPreview.setProfilepic(dss.child("linkImgPerfil").getValue().toString());
                         usersList.add(userPreview);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference();
+        Query query1 = databaseReference1.child("usuarios").orderByChild("apellido")
+                .startAt(s)
+                .endAt(s+"\uf8ff");
+        query1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.hasChildren()) {
+                    for (DataSnapshot dss : dataSnapshot.getChildren()) {
+                        if (!userInLista(dss.child("id").getValue().toString())) {
+                            String nombre = dss.child("nombre").getValue().toString() + " " + dss.child("apellido").getValue().toString();
+                            final UserPreview userPreview = new UserPreview(nombre, dss.child("id").getValue().toString());
+                            userPreview.setProfilepic(dss.child("linkImgPerfil").getValue().toString());
+                            usersList.add(userPreview);
+                        }
+
                     }
                 }
             }
@@ -164,7 +204,19 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
                         String nombre = dataSnapshot.child("usuarios").child(post.getAuthorId()).child("nombre").getValue().toString();
                         nombre += " " + dataSnapshot.child("usuarios").child(post.getAuthorId()).child("apellido").getValue().toString();
                         String imgPostAuthor = dataSnapshot.child("usuarios").child(post.getAuthorId()).child("linkImgPerfil").getValue().toString();
-                        postsList.add(new PostWithUser(post.getAuthorId(), post.getDescripcion(), post.getTipo(),post.getIdPost(), nombre,imgPostAuthor));
+                        PostWithUser postWithUser = new PostWithUser(post.getAuthorId(), post.getDescripcion(), post.getTipo(),post.getIdPost(), nombre,imgPostAuthor);
+                        postWithUser.setFecha(post.getFecha());
+                        switch (post.getTipo()) {
+                            case "IMAGE" :
+                                postWithUser.setImageURI(post.getImageURI());
+                                break;
+                            case "VIDEO":
+                                postWithUser.setVideoUrl(post.getVideoUrl());
+                                break;
+                        }
+                        //TODO add reacciones y comentarios
+                        postsList.add(postWithUser);
+
                     }
                 }
             }
@@ -193,19 +245,68 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
 
     @Override
     public void onPostClick(PostWithUser postWithUser) {
-
+        Toast.makeText(getContext(), postWithUser.getImageURI(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onLikeClick(PostWithUser postWithUser, ReactButton reactButton) {
 
+        Reaccion reaccion = new Reaccion(MenuActivity.usuario.getId(),0);
+        if(postWithUser.getReacciones().contains(reaccion)){
+            int reactionIndex = postWithUser.getReacciones().indexOf(reaccion);
+            agregarReaccion(reaccion,reactionIndex,postWithUser);
+            reactButton.setCurrentReaction(reactButton.getDefaultReaction());
+        }
+        else{
+            reactButton.setCurrentReaction(RecyclerViewPostAdapter.reactions[1]);
+            reaccion.setTipoReaccion(1);
+            postWithUser.getReacciones().add(reaccion);
+            agregarReaccion(reaccion,postWithUser.getReacciones().size()-1,postWithUser);
+        }
+
     }
 
     @Override
     public void onLikeLongClick(PostWithUser postWithUser, Reaction reaction) {
+        int tipoReaccion;
+        switch (reaction.getReactType()){
+            case "Me gusta":
+                tipoReaccion = 1;
+                break;
+            case "Me encanta":
+                tipoReaccion = 2;
+                break;
+            case "Me divierte":
+                tipoReaccion = 3;
+                break;
+            case "Me asombra":
+                tipoReaccion = 4;
+                break;
+            case "No me gusta":
+                tipoReaccion = 5;
+                break;
+            case "Me enoja":
+                tipoReaccion = 6;
+                break;
+            default:
+                tipoReaccion = 0;
+                break;
+        }
+        Reaccion reaccion = new Reaccion(MenuActivity.usuario.getId(),tipoReaccion);
+        if(postWithUser.getReacciones().contains(reaccion)){
+            int reactionIndex = postWithUser.getReacciones().indexOf(reaccion);
+            postWithUser.getReacciones().set(reactionIndex,reaccion);
+            agregarReaccion(reaccion,reactionIndex,postWithUser);
 
+
+        }
+
+        else{
+            postWithUser.getReacciones().add(reaccion);
+            agregarReaccion(reaccion,postWithUser.getReacciones().size()-1,postWithUser);
+
+        }
     }
-
 
     @Override
     public void onCommentClick(PostWithUser postWithUser) {
@@ -214,6 +315,30 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
 
     @Override
     public void onProfileClick(String idUser) {
+
+    }
+
+
+    public void agregarReaccion(Reaccion reaccion,int reaccionIndex,PostWithUser post){
+        final FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
+        final DatabaseReference myRef  = mFirebaseDatabase.getReference();
+        if (reaccion.getTipoReaccion() != 0) {
+            myRef.child("posts")
+                    .child(post.getIdPost())
+                    .child("reacciones")
+                    .child(String.valueOf(reaccionIndex))
+                    .setValue(reaccion);
+        }
+        else{
+            Log.i("Resultados","Entre");
+            myRef.child("posts")
+                    .child(post.getIdPost())
+                    .child("reacciones")
+                    .child(String.valueOf(reaccionIndex))
+                    .setValue(null);
+            post.getReacciones().remove(reaccionIndex);
+        }
+
 
     }
 }
