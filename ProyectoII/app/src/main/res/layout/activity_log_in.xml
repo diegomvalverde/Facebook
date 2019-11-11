@@ -13,34 +13,55 @@
         android:layout_height="200sp"
         android:src="@drawable/login"
         android:background="#5794CC"/>
+   <com.google.android.material.textfield.TextInputLayout
+       android:id="@+id/textInput_Login_Correo"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_below="@+id/img_LogIn"
+       android:layout_marginTop="60sp"
+       android:theme="@style/NormalTextInput"
+       android:layout_centerHorizontal="true"
+       android:textColorHint="@color/colorPrimary">
 
-    <EditText
-        android:id="@+id/editText_LogIn_Correo"
-        android:layout_width="360sp"
-        android:layout_height="60sp"
-        android:layout_alignBottom="@+id/img_LogIn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="-120sp"
-        android:hint="Correo electróncico"
-        android:inputType="textEmailAddress" />
+       <EditText
+           android:id="@+id/editText_LogIn_Correo"
+           android:layout_width="360sp"
+           android:layout_height="60sp"
+           android:imeOptions="actionNext"
+           android:hint="Correo electrónico"
+           android:inputType="textEmailAddress" />
 
-    <EditText
-        android:id="@+id/editText_LogIn_Contrasena"
-        android:layout_width="360sp"
-        android:layout_height="60sp"
-        android:layout_alignTop="@+id/editText_LogIn_Correo"
+
+   </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInput_Login_Contrasena"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textInput_Login_Correo"
+        android:theme="@style/NormalTextInput"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60sp"
-        android:hint="Contraseña"
-        android:inputType="textPassword" />
+        android:textColorHint="@color/colorPrimary">
+
+        <EditText
+            android:id="@+id/editText_LogIn_Contrasena"
+            android:layout_width="360sp"
+            android:layout_height="60sp"
+            android:imeOptions="actionDone"
+            android:hint="Contraseña"
+            android:inputType="textPassword"
+            android:textColor="@android:color/black"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <Button
         android:id="@+id/btn_LogIn_Iniciar"
         android:layout_width="360sp"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/editText_LogIn_Contrasena"
+        android:layout_below ="@+id/textInput_Login_Contrasena"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="70sp"
+        android:layout_marginTop="15sp"
         android:background="@color/MediumAquamarine"
         android:text="Iniciar sesión"
         android:textSize="18sp"
@@ -51,27 +72,43 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/btn_LogIn_Iniciar"
-        android:layout_marginTop="60sp"
+        android:layout_below="@+id/btn_LogIn_Iniciar"
+        android:layout_marginTop="15sp"
         android:layout_centerHorizontal="true"
         android:textSize="18sp"
         android:textColor="@color/MediumAquamarine"
-        android:text="¿Olvidaste tu contraseña?"/>
+        android:text="¿Olvidaste tu contraseña?"
+        android:onClick="onClickRecuperarContrasena"/>
 
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/btn_LogIn_Google"
+        android:layout_width="160sp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_LogIn_Iniciar"
+        android:layout_marginTop="80sp"
+        android:layout_centerHorizontal="true"
+        />
 
     <Button
         android:id="@+id/btn_LogIn_Registrar"
         android:layout_width="160sp"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/btn_LogIn_Iniciar"
+        android:layout_below="@+id/btn_LogIn_Google"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="150sp"
+        android:layout_marginTop="30sp"
         android:background="@color/YellowGreen"
         android:text="Crear cuenta"
         android:textSize="18sp"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:onClick="onClickCrearCuenta"/>
+
+        <ProgressBar
+            android:id="@+id/progressbar_Login"
+            android:visibility="invisible"
+            android:layout_width="120sp"
+            android:layout_height="120sp"
+            android:layout_centerInParent="true" />
 
 
 

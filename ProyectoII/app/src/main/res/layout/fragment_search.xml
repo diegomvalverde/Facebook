@@ -6,14 +6,16 @@
         android:id="@+id/criteriobusqueda"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text"/>
+        android:inputType="text"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"/>
 
     <RelativeLayout
         android:id="@+id/opcionusuarios"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/criteriobusqueda"
-        android:layout_centerHorizontal="true">
+        android:layout_marginStart="90dp">
 
         <CheckBox
             android:id="@+id/userson"
@@ -36,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/opcionusuarios"
-        android:layout_centerHorizontal="true">
+        android:layout_marginStart="90dp">
 
         <CheckBox
             android:id="@+id/postson"
@@ -55,18 +57,25 @@
     </RelativeLayout>
 
 
-
     <Button
         android:id="@+id/buscarbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/opcionposts"
+        android:text="@string/search"
+        android:textColor="@android:color/white"
+        android:background="@color/colorPrimary"
+        android:layout_below="@id/criteriobusqueda"
+        android:layout_toEndOf="@id/opcionusuarios"
         android:layout_centerHorizontal="true"
-        android:text="@string/search"/>
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="40dp"/>
 
-    <ScrollView
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/resultados"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/buscarbtn"/>
+        android:layout_below="@id/buscarbtn"
+        android:layout_marginTop="10dp"/>
 
 </RelativeLayout>

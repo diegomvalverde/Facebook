@@ -1,8 +1,10 @@
 package com.example.proyectoii.BeforeLogin;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.icu.util.Calendar;
@@ -11,13 +13,27 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.proyectoii.MenuActivity;
+import com.example.proyectoii.Objetos.Usuario;
 import com.example.proyectoii.R;
+import com.example.proyectoii.Utils.FirebaseConnector;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Pattern;
 
@@ -26,19 +42,46 @@ public class RegisterActivity extends AppCompatActivity {
             Pattern.compile("^(?=.*[A-Za-z])[A-Za-z0-9@$!%*#?&¿¡]{6,}$");
 
     private EditText editTextNombre, editTextApellido, editTextCorreo, editTextContrasena;
+    private Spinner spinnerGenero;
     private DatePicker datePicker;
+    private ProgressBar progressBar;
+    private boolean connetionInProgress = false;
+    private Usuario nuevoUsuario;
+
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        //Inicializa los layouts
+        //Inicializa las variables
         editTextNombre = findViewById(R.id.editText_Register_Nombre);
         editTextApellido = findViewById(R.id.editText_Register_Apellido);
         datePicker = findViewById(R.id.datePicker_Register);
         editTextCorreo = findViewById(R.id.editText_Register_Correo);
         editTextContrasena = findViewById(R.id.editText_Register_Contrasena);
+        progressBar = findViewById(R.id.progressbar_Register);
+        spinnerGenero = findViewById(R.id.spinner_Register);
+        mAuth = FirebaseAuth.getInstance();
+
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+
+                if (user != null) {
+                    nuevoUsuario.setId(mAuth.getCurrentUser().getUid());
+                    agregarUsuario();
+                    Intent intent = new Intent(getApplicationContext(),MenuActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+            }
+        };
+
 
         View.OnFocusChangeListener focusChangeListener = new View.OnFocusChangeListener() {
             @Override
@@ -105,7 +148,9 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void onClickBack(View view) {
-        finish();
+        if(!connetionInProgress){
+            finish();
+        }
     }
 
     private void mostrarErrorTextInput(EditText editText, TextInputLayout textInputLayout) {
@@ -137,11 +182,22 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void onClickCrearCuenta(View view) {
-        if(parametosCorrectos()){
-            Toast.makeText(getApplicationContext(),"Parametros correctos",Toast.LENGTH_SHORT).show();
-        }
-        else{
-            Toast.makeText(getApplicationContext(),"Parametros incorrectos",Toast.LENGTH_SHORT).show();
+        if(!connetionInProgress) {
+            if (parametosCorrectos()) {
+                String correo = editTextCorreo.getText().toString();
+                String contrasena = editTextContrasena.getText().toString();
+                String nombre = editTextNombre.getText().toString();
+                String apellido = editTextApellido.getText().toString();
+                String genero = spinnerGenero.getSelectedItem().toString();
+                String fechaNac = datePicker.getDayOfMonth()+"/"+(datePicker.getMonth()+1)+"/"+datePicker.getYear();
+
+                nuevoUsuario = new Usuario(correo,nombre,apellido,fechaNac,genero);
+               connetionInProgress = true;
+               progressBar.setVisibility(View.VISIBLE);
+                registrarCorreo(contrasena);
+            } else {
+                Toast.makeText(getApplicationContext(), "Parametros incorrectos", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -174,7 +230,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private java.util.Date getDateFromDatePicker() {
         int day = datePicker.getDayOfMonth();
-        int month = datePicker.getMonth();
+        int month = datePicker.getMonth()+1;
         int year = datePicker.getYear();
 
         Calendar calendar = Calendar.getInstance();
@@ -294,9 +350,49 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         return isContrasenaValida;
+
     }
 
 
+
+    private void registrarCorreo(String contrasena){
+
+        mAuth.createUserWithEmailAndPassword(nuevoUsuario.getCorreo(),contrasena).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(!task.isSuccessful()){
+                    Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
+                }
+
+                connetionInProgress = false;
+                progressBar.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
+
+    private void agregarUsuario() {
+        final FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
+        final DatabaseReference myRef  = mFirebaseDatabase.getReference();
+
+        myRef.child("usuarios")
+                .child(nuevoUsuario.getId())
+                .setValue(nuevoUsuario);
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
 
 
 }

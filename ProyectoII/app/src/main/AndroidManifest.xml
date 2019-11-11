@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.proyectoii">
-    <uses-permission android:name="android.permission.INTERNET"/>
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -12,37 +11,37 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<<<<<<< Updated upstream
-
-        <activity android:name=".Post"></activity>
-        <activity android:name=".BeforeLogin.RegisterActivity" android:theme="@style/ActivityWithToolbar"></activity>
-        <activity android:name=".BeforeLogin.LogInActivity" android:theme="@style/LogIn">
-=======
         <activity android:name=".ProfileUtils.ProfileEditor"></activity>
         <activity
             android:name=".VerPublicacionActivity"
             android:theme="@style/ActivityWithToolbar"></activity>
+
+        <activity android:name=".VerPublicacionActivity"
+            android:theme="@style/ActivityWithToolbar">
+
+        </activity>
         <activity
             android:name=".BeforeLogin.ExtraInfoActivity"
             android:theme="@style/ActivityWithToolbar" />
         <activity
             android:name=".Post"
-            android:theme="@style/ActivityWithToolbar"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/ActivityWithToolbar"/>
         <activity
             android:name=".BeforeLogin.RegisterActivity"
             android:theme="@style/ActivityWithToolbar" />
         <activity
             android:name=".BeforeLogin.LogInActivity"
             android:theme="@style/LogIn">
->>>>>>> Stashed changes
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MenuActivity"></activity>
+        <activity android:name=".MenuActivity" />
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

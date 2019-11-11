@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BeforeLogin.ExtraInfoActivity">
+
+    <Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="60sp"
+        android:background="@color/colorPrimary">
+
+        <Button
+            android:id="@+id/btn_ExtraInfo_back"
+            android:layout_width="25sp"
+            android:layout_height="23sp"
+            android:background="@drawable/ic_arrow_back"
+            android:onClick="onClickBack" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:textColor="@android:color/white"
+            android:layout_marginStart="40sp"
+            android:text="Datos extra"/>
+
+    </Toolbar>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="85sp"
+        android:text="¿Cuándo naciste?"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        />
+
+    <TextView
+        android:id="@+id/textError_ExtraInfo_Edad"
+        android:layout_width="wrap_content"
+        android:layout_height="0sp"
+        android:textColor="@color/Error"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="110sp"
+        android:textSize="12sp" />
+
+    <DatePicker
+        android:id="@+id/datePicker_ExtraInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textError_ExtraInfo_Edad"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15sp"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        android:spinnersShown="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/textError_ExtraInfo_Edad"
+        android:layout_marginTop="255sp"
+        android:text="¿Con qué género te identificas?"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        />
+    <Spinner
+        android:id="@+id/spinner_ExtraInfo"
+        android:layout_width="300sp"
+        android:layout_height="40sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/textError_ExtraInfo_Edad"
+        android:layout_marginTop="300sp"
+        android:entries="@array/lista_generos"
+        />
+
+    <Button
+        android:id="@+id/btn_ExtraInfo_Registrar"
+        android:layout_width="160sp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/spinner_ExtraInfo"
+        android:layout_marginTop="45sp"
+        android:layout_marginBottom="30sp"
+        android:background="@color/colorPrimary"
+        android:text="Crear cuenta"
+        android:textSize="18sp"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:onClick="onClickCrearCuenta"/>
+
+    <ProgressBar
+        android:id="@+id/progressbar_ExtraInfo"
+        android:layout_width="120sp"
+        android:layout_height="120sp"
+        android:visibility="invisible"
+        android:layout_centerInParent="true"/>
+
+
+</RelativeLayout>

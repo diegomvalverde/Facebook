@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout_reacciones"
+        android:layout_width="wrap_content"
+        android:layout_height="25sp"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_marginStart="10sp"
+            android:layout_centerVertical="true"
+            android:id="@+id/img_reacciones_1"
+            android:layout_width="20sp"
+            android:layout_height="20sp"
+            android:visibility="gone"/>
+
+        <ImageView
+
+            android:layout_centerVertical="true"
+            android:id="@+id/img_reacciones_2"
+            android:layout_toEndOf="@+id/img_reacciones_1"
+            android:layout_width="20sp"
+            android:layout_height="20sp"
+            android:visibility="gone"/>
+
+        <ImageView
+
+            android:layout_centerVertical="true"
+            android:id="@+id/img_reacciones_3"
+            android:layout_toEndOf="@+id/img_reacciones_2"
+            android:layout_width="20sp"
+            android:layout_height="20sp"
+            android:visibility="gone"
+            />
+
+
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_marginStart="5sp"
+        android:id="@+id/text_nunReacciones"
+        android:layout_toEndOf="@+id/relativeLayout_reacciones"
+        android:layout_centerVertical="true"
+        android:textSize="16sp"
+        android:text="88"
+        android:textColor="@android:color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout_numComentarios"
+        android:layout_width="wrap_content"
+        android:layout_height="25sp"
+        android:layout_alignParentEnd="true"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/text_numComentarios"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="80 comentarios"
+            android:layout_centerVertical="true"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:layout_marginEnd="10sp"
+            />
+
+    </RelativeLayout>
+
+</RelativeLayout>

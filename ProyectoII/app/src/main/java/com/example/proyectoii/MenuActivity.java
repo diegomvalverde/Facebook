@@ -1,13 +1,16 @@
 package com.example.proyectoii;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
-<<<<<<< Updated upstream
+import android.content.Context;
 import android.graphics.PorterDuff;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.opengl.Visibility;
 import android.os.Bundle;
-=======
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -16,76 +19,149 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
->>>>>>> Stashed changes
+import android.util.Log;
+import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.RelativeLayout;
 
 import com.example.proyectoii.MenuFragments.FriendsFragment;
 import com.example.proyectoii.MenuFragments.HomeFragment;
 import com.example.proyectoii.MenuFragments.NotificationFragment;
+import com.example.proyectoii.MenuFragments.OptionsFragment;
 import com.example.proyectoii.MenuFragments.ProfileFragment;
 import com.example.proyectoii.MenuFragments.SearchFragment;
-<<<<<<< Updated upstream
-=======
 import com.example.proyectoii.Objetos.Usuario;
 import com.example.proyectoii.ProfileUtils.ProfileEditor;
->>>>>>> Stashed changes
+import com.example.proyectoii.Objetos.Usuario;
 import com.example.proyectoii.Utils.TabAdapter;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class MenuActivity extends AppCompatActivity {
-
-    private TabAdapter mTabAdapter;
-    private ViewPager mViewPager;
+    public static Usuario usuario = null;
+    private static TabAdapter mTabAdapter;
+    private static ViewPager mViewPager;
+    private static RelativeLayout cargandoLayout,errorLayout;
+    private static Context mContext;
+    private static TabLayout tabLayout;
+    private static Boolean isGettingUser = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        ConnectivityManager connectivityManager;
         mTabAdapter = new TabAdapter(getSupportFragmentManager());
         mViewPager =  findViewById(R.id.contenido);
+        cargandoLayout = findViewById(R.id.layout_Menu_Transparent);
+        errorLayout = findViewById(R.id.layout_Menu_Error);
+        mContext = getApplicationContext();
+        tabLayout = findViewById(R.id.tabs);
+        if (checkNetworkConnectionStatus()) {
+            if (!isGettingUser) {
+                cargandoLayout.setVisibility(View.VISIBLE);
+                isGettingUser = true;
+                getCurrentUser(false);
+            }
+        }
+        else{
+            cargandoLayout.setVisibility(View.INVISIBLE);
+            errorLayout.setVisibility(View.VISIBLE);
+        }
 
 
-        configurarToolbar(mViewPager);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (checkNetworkConnectionStatus()) {
+            if (!isGettingUser) {
+                cargandoLayout.setVisibility(View.VISIBLE);
+                isGettingUser = true;
+                getCurrentUser(false);
+            }
+        }
+        else{
+            cargandoLayout.setVisibility(View.INVISIBLE);
+            errorLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (checkNetworkConnectionStatus()) {
+            if (!isGettingUser) {
+                cargandoLayout.setVisibility(View.VISIBLE);
+                isGettingUser = true;
+                getCurrentUser(false);
+            }
+        }
+        else{
+            cargandoLayout.setVisibility(View.INVISIBLE);
+            errorLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        isGettingUser = false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        isGettingUser = false;
     }
 
     /**
      * Configura el toolbar
      */
-    private void configurarToolbar(ViewPager viewPager){
-        TabAdapter adapter = new TabAdapter(getSupportFragmentManager());
-        adapter.addFragment(new HomeFragment());
-        adapter.addFragment(new ProfileFragment());
-        adapter.addFragment(new FriendsFragment());
-        adapter.addFragment(new NotificationFragment());
-        adapter.addFragment(new SearchFragment());
-        viewPager.setAdapter(adapter);
+    private static void configurarToolbar(ViewPager viewPager){
 
-        TabLayout tabLayout = findViewById(R.id.tabs);
+        mTabAdapter.addFragment(new HomeFragment());
+        mTabAdapter.addFragment(new ProfileFragment());
+        mTabAdapter.addFragment(new FriendsFragment());
+        mTabAdapter.addFragment(new NotificationFragment());
+        mTabAdapter.addFragment(new SearchFragment());
+        mTabAdapter.addFragment(new OptionsFragment());
+        viewPager.setAdapter(mTabAdapter);
+
+
 
         tabLayout.setupWithViewPager(viewPager);
 
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_home);
-        int tabIconColor = ContextCompat.getColor(getApplicationContext(), R.color.DarkCyan);
+        int tabIconColor = ContextCompat.getColor(mContext, R.color.DarkCyan);
         tabLayout.getTabAt(0).getIcon().setColorFilter(tabIconColor,PorterDuff.Mode.SRC_IN);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_profile);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_friends);
         tabLayout.getTabAt(3).setIcon(R.drawable.ic_notification);
         tabLayout.getTabAt(4).setIcon(R.drawable.ic_search);
+        tabLayout.getTabAt(5).setIcon(R.drawable.ic_options);
 
         tabLayout.addOnTabSelectedListener( new TabLayout.ViewPagerOnTabSelectedListener(viewPager){
 
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 super.onTabSelected(tab);
-                int tabIconColor = ContextCompat.getColor(getApplicationContext(), R.color.DarkCyan);
+                int tabIconColor = ContextCompat.getColor(mContext, R.color.DarkCyan);
                 tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 super.onTabUnselected(tab);
-                int tabIconColor = ContextCompat.getColor(getApplicationContext(), R.color.ic_gris);
+                int tabIconColor = ContextCompat.getColor(mContext, R.color.ic_gris);
                 tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
             }
 
@@ -98,8 +174,6 @@ public class MenuActivity extends AppCompatActivity {
 
 
     }
-<<<<<<< Updated upstream
-=======
 
     public static void setTabSelected(int i){
 
@@ -181,6 +255,4 @@ public class MenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
->>>>>>> Stashed changes
 }
