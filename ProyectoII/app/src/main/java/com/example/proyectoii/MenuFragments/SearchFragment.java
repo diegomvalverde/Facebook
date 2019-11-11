@@ -122,6 +122,17 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
         }
     }
 
+    public boolean userInLista(String newid) {
+        boolean isIn = false;
+        for (int i=0; i<usersList.size(); i++) {
+            String id = usersList.get(i).getId();
+            if (newid.equals(id)) {
+                isIn = true;
+            }
+        }
+        return isIn;
+    }
+
     public void searchUser(String s) {
         usersList.clear();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -138,6 +149,32 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
                         final UserPreview userPreview = new UserPreview(nombre, dss.child("id").getValue().toString());
                         userPreview.setProfilepic(dss.child("linkImgPerfil").getValue().toString());
                         usersList.add(userPreview);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference();
+        Query query1 = databaseReference1.child("usuarios").orderByChild("apellido")
+                .startAt(s)
+                .endAt(s+"\uf8ff");
+        query1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.hasChildren()) {
+                    for (DataSnapshot dss : dataSnapshot.getChildren()) {
+                        if (!userInLista(dss.child("id").getValue().toString())) {
+                            String nombre = dss.child("nombre").getValue().toString() + " " + dss.child("apellido").getValue().toString();
+                            final UserPreview userPreview = new UserPreview(nombre, dss.child("id").getValue().toString());
+                            userPreview.setProfilepic(dss.child("linkImgPerfil").getValue().toString());
+                            usersList.add(userPreview);
+                        }
+
                     }
                 }
             }
@@ -167,7 +204,18 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
                         String nombre = dataSnapshot.child("usuarios").child(post.getAuthorId()).child("nombre").getValue().toString();
                         nombre += " " + dataSnapshot.child("usuarios").child(post.getAuthorId()).child("apellido").getValue().toString();
                         String imgPostAuthor = dataSnapshot.child("usuarios").child(post.getAuthorId()).child("linkImgPerfil").getValue().toString();
-                        postsList.add(new PostWithUser(post.getAuthorId(), post.getDescripcion(), post.getTipo(),post.getIdPost(), nombre,imgPostAuthor));
+                        PostWithUser postWithUser = new PostWithUser(post.getAuthorId(), post.getDescripcion(), post.getTipo(),post.getIdPost(), nombre,imgPostAuthor);
+                        postWithUser.setFecha(post.getFecha());
+                        switch (post.getTipo()) {
+                            case "IMAGE" :
+                                postWithUser.setImageURI(post.getImageURI());
+                                break;
+                            case "VIDEO":
+                                postWithUser.setVideoUrl(post.getVideoUrl());
+                                break;
+                        }
+                        //TODO add reacciones y comentarios
+                        postsList.add(postWithUser);
 
                     }
                 }
@@ -259,7 +307,6 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
 
         }
     }
-
 
     @Override
     public void onCommentClick(PostWithUser postWithUser) {
