@@ -3,6 +3,8 @@
     package="com.example.proyectoii">
     <uses-permission android:name="android.permission.INTERNET"/>
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,10 +12,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+<<<<<<< Updated upstream
 
         <activity android:name=".Post"></activity>
         <activity android:name=".BeforeLogin.RegisterActivity" android:theme="@style/ActivityWithToolbar"></activity>
         <activity android:name=".BeforeLogin.LogInActivity" android:theme="@style/LogIn">
+=======
+        <activity android:name=".ProfileUtils.ProfileEditor"></activity>
+        <activity
+            android:name=".VerPublicacionActivity"
+            android:theme="@style/ActivityWithToolbar"></activity>
+        <activity
+            android:name=".BeforeLogin.ExtraInfoActivity"
+            android:theme="@style/ActivityWithToolbar" />
+        <activity
+            android:name=".Post"
+            android:theme="@style/ActivityWithToolbar"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".BeforeLogin.RegisterActivity"
+            android:theme="@style/ActivityWithToolbar" />
+        <activity
+            android:name=".BeforeLogin.LogInActivity"
+            android:theme="@style/LogIn">
+>>>>>>> Stashed changes
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

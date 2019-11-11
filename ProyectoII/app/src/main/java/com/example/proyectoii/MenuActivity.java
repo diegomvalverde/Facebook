@@ -4,14 +4,30 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
+<<<<<<< Updated upstream
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+=======
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.RelativeLayout;
+>>>>>>> Stashed changes
 
 import com.example.proyectoii.MenuFragments.FriendsFragment;
 import com.example.proyectoii.MenuFragments.HomeFragment;
 import com.example.proyectoii.MenuFragments.NotificationFragment;
 import com.example.proyectoii.MenuFragments.ProfileFragment;
 import com.example.proyectoii.MenuFragments.SearchFragment;
+<<<<<<< Updated upstream
+=======
+import com.example.proyectoii.Objetos.Usuario;
+import com.example.proyectoii.ProfileUtils.ProfileEditor;
+>>>>>>> Stashed changes
 import com.example.proyectoii.Utils.TabAdapter;
 import com.google.android.material.tabs.TabLayout;
 
@@ -82,4 +98,89 @@ public class MenuActivity extends AppCompatActivity {
 
 
     }
+<<<<<<< Updated upstream
+=======
+
+    public static void setTabSelected(int i){
+
+        TabLayout.Tab tab = tabLayout.getTabAt(i);
+        tab.select();
+
+
+
+    }
+
+    public static void getCurrentUser(boolean actualizar){
+        if(usuario == null || actualizar) {
+            final FirebaseDatabase database = FirebaseDatabase.getInstance();
+            FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+            DatabaseReference myRef = database.getReference("usuarios/" + firebaseAuth.getCurrentUser().getUid());
+
+            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    usuario = dataSnapshot.getValue(Usuario.class);
+
+                    if (mTabAdapter.getCount() == 0) {
+                        configurarToolbar(mViewPager);
+                    }
+
+                    cargandoLayout.setVisibility(View.GONE);
+                    isGettingUser = false;
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+
+
+            });
+        }
+        else{
+            cargandoLayout.setVisibility(View.GONE);
+
+        }
+    }
+
+
+    public void OnClickReconnect(View view){
+        if (checkNetworkConnectionStatus()) {
+            errorLayout.setVisibility(View.GONE);
+            if (!isGettingUser) {
+                cargandoLayout.setVisibility(View.VISIBLE);
+                isGettingUser = true;
+                getCurrentUser(false);
+            }
+        }
+        else{
+            cargandoLayout.setVisibility(View.INVISIBLE);
+            errorLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+
+    private boolean checkNetworkConnectionStatus() {
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeInfo = connMgr.getActiveNetworkInfo();
+        if (activeInfo != null && activeInfo.isConnected()){ //connected with either mobile or wifi
+            return  true;
+        }
+        else { //no internet connection
+            return false;
+        }
+    }
+
+
+    //    For Profile Fragment
+    public void editProfile(View view)
+    {
+        Intent intent = new Intent(this, ProfileEditor.class);
+        startActivity(intent);
+    }
+
+
+>>>>>>> Stashed changes
 }

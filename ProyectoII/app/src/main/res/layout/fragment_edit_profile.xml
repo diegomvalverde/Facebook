@@ -1,14 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileFragments.EditProfile">
+    android:fillViewport="true"
+    tools:context=".ProfileUtils.EditProfile" >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
+        android:id="@+id/editRelativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <EditText
+            android:id="@+id/cityTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="112dp"
+            android:layout_marginTop="439dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Cartago"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/cityLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="191dp"
+            android:layout_marginBottom="447dp"
+            android:text="Ciudad"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/contactTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="112dp"
+            android:layout_marginTop="321dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="64475306"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/contactLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="182dp"
+            android:layout_marginBottom="565dp"
+            android:text="Teléfono"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/nameLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="186dp"
+            android:layout_marginBottom="816dp"
+            android:text="Nombre"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/nameTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="113dp"
+            android:layout_marginTop="62dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Diego"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/lastNameLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="183dp"
+            android:layout_marginBottom="685dp"
+            android:text="Apellidos"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/lastNameTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="113dp"
+            android:layout_marginTop="201dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Mendez Valverde"
+            android:textAlignment="center" />
+
+        <Button
+            android:id="@+id/editProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="156dp"
+            android:layout_marginBottom="258dp"
+            android:text="Editar perfil" />
+
+    </RelativeLayout>
+</ScrollView>
