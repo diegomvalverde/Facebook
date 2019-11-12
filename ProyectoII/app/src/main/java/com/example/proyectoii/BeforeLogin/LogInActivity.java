@@ -139,7 +139,8 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     public void onClickRecuperarContrasena(View view) {
-
+        Intent intent = new Intent(getApplicationContext(),RecoverPasswordActivity.class);
+        startActivity(intent);
     }
 
 

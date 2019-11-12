@@ -7,9 +7,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,9 +23,17 @@ import com.example.proyectoii.MenuActivity;
 import com.example.proyectoii.Objetos.PostObject;
 import com.example.proyectoii.Objetos.PostWithUser;
 import com.example.proyectoii.Objetos.Reaccion;
+import com.example.proyectoii.Post;
 import com.example.proyectoii.R;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
+import com.google.android.youtube.player.YouTubeThumbnailLoader;
+import com.google.android.youtube.player.YouTubeThumbnailView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -33,11 +43,16 @@ public class RecyclerViewPostAdapter extends RecyclerView.Adapter<RecyclerViewPo
     private Context mContext;
     private OnPostListener onPostListener;
     public final static Reaction[] reactions   = new Reaction[7];
+    private final String youtubeApiKey = "AIzaSyDeieVxJzbBFmU5NSge6Q2kVLJsXlDIMKI";
+    private final Map<YouTubeThumbnailView, YouTubeThumbnailLoader> thumbnailViewToLoaderMap;
+    private final ThumbnailListener thumbnailListener;
 
     public RecyclerViewPostAdapter(Context mContext, ArrayList<PostWithUser> post,OnPostListener onPostListener) {
         this.post = post;
         this.mContext = mContext;
         this.onPostListener = onPostListener;
+        thumbnailViewToLoaderMap = new HashMap<YouTubeThumbnailView, YouTubeThumbnailLoader>();
+        thumbnailListener = new ThumbnailListener();
 
         reactions[0] = new Reaction("Me gusta", "Default","#616770", R.drawable.ic_gray_like);
         reactions[1] = new Reaction("Me gusta","#0366d6",R.drawable.ic_like);
@@ -73,12 +88,21 @@ public class RecyclerViewPostAdapter extends RecyclerView.Adapter<RecyclerViewPo
         switch (post.get(position).getTipo()){
             case "IMAGE":
                 Glide.with(mContext).load(holder.postWithUser.getImageURI()).into(holder.imgPost);
-                ViewGroup.LayoutParams params= holder.imgPost.getLayoutParams();
-                params.height = 600;
-                holder.imgPost.setLayoutParams(params);
+                holder.imgPost.setVisibility(View.VISIBLE);
                 break;
             case "VIDEO":
+                String tokens[] = holder.postWithUser.getVideoUrl().split("v=");
+                if (tokens.length == 1) {
+                    tokens = holder.postWithUser.getVideoUrl().split("/");
+                }
+                String idVideo = tokens[tokens.length - 1];
+                holder.video.setTag(idVideo);
+                holder.video.initialize(youtubeApiKey,thumbnailListener);
+                holder.relativeLayoutVideo.setVisibility(View.VISIBLE);
                 break;
+            default:
+                holder.relativeLayoutVideo.setVisibility(View.GONE);
+                holder.imgPost.setVisibility(View.GONE);
         }
 
         holder.textPost.setText(post.get(position).getDescripcion());
@@ -154,6 +178,9 @@ public class RecyclerViewPostAdapter extends RecyclerView.Adapter<RecyclerViewPo
         RelativeLayout layoutReacciones;
         RelativeLayout contentLayout;
         RelativeLayout profileLayout;
+        YouTubeThumbnailView video;
+        RelativeLayout relativeLayoutVideo;
+
 
         public ViewHolder(@NonNull View itemView,OnPostListener onPostListener) {
             super(itemView);
@@ -171,6 +198,8 @@ public class RecyclerViewPostAdapter extends RecyclerView.Adapter<RecyclerViewPo
             reaccionTop3 = itemView.findViewById(R.id.img_reacciones_3);
             layoutReacciones = itemView.findViewById(R.id.relativeLayout_reacciones);
             contentLayout = itemView.findViewById(R.id.relativeLayout_post_content);
+            video = itemView.findViewById(R.id.video_post);
+            relativeLayoutVideo = itemView.findViewById(R.id.relativeLayout_post_video);
             this.onPostListener = onPostListener;
             
             
@@ -188,6 +217,7 @@ public class RecyclerViewPostAdapter extends RecyclerView.Adapter<RecyclerViewPo
             switch (view.getId()){
                 case R.id.relativeLayout_post_content:
                     onPostListener.onPostClick(postWithUser);
+
                     break;
                 case R.id.likeButton:
                     onPostListener.onLikeClick(postWithUser,reactButton);
@@ -214,6 +244,8 @@ public class RecyclerViewPostAdapter extends RecyclerView.Adapter<RecyclerViewPo
             }
             return false;
         }
+
+
     }
 
 
@@ -224,5 +256,37 @@ public class RecyclerViewPostAdapter extends RecyclerView.Adapter<RecyclerViewPo
         void onCommentClick(PostWithUser postWithUser);
         void onProfileClick(String idUser);
 
+    }
+
+    private final class ThumbnailListener implements
+            YouTubeThumbnailView.OnInitializedListener,
+            YouTubeThumbnailLoader.OnThumbnailLoadedListener {
+
+        @Override
+        public void onInitializationSuccess(
+                YouTubeThumbnailView view, YouTubeThumbnailLoader loader) {
+            loader.setOnThumbnailLoadedListener(this);
+            thumbnailViewToLoaderMap.put(view, loader);
+
+            view.setImageResource(R.drawable.loading_thumbnail);
+            String videoId = (String) view.getTag();
+            loader.setVideo(videoId);
+        }
+
+        @Override
+        public void onInitializationFailure(
+                YouTubeThumbnailView view, YouTubeInitializationResult loader) {
+            view.setImageResource(R.drawable.no_thumbnail);
+        }
+
+        @Override
+        public void onThumbnailLoaded(YouTubeThumbnailView view, String videoId) {
+
+        }
+
+        @Override
+        public void onThumbnailError(YouTubeThumbnailView view, YouTubeThumbnailLoader.ErrorReason errorReason) {
+            view.setImageResource(R.drawable.no_thumbnail);
+        }
     }
 }

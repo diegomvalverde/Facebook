@@ -377,6 +377,8 @@ public class RegisterActivity extends AppCompatActivity {
         myRef.child("usuarios")
                 .child(nuevoUsuario.getId())
                 .setValue(nuevoUsuario);
+
+        
     }
 
 

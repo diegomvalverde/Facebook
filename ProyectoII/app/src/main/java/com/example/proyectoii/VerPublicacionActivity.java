@@ -18,12 +18,16 @@ import com.bumptech.glide.Glide;
 import com.example.proyectoii.Objetos.PostWithUser;
 import com.example.proyectoii.Objetos.Reaccion;
 import com.example.proyectoii.Utils.RecyclerViewPostAdapter;
+import com.example.proyectoii.Utils.YouTubeFailureRecoveryActivity;
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.example.proyectoii.Utils.RecyclerViewPostAdapter.reactions;
 
-public class VerPublicacionActivity extends AppCompatActivity {
+public class VerPublicacionActivity extends YouTubeFailureRecoveryActivity {
     private PostWithUser post;
     private CircleImageView imgPerfilAutor,imgCurrentUser;
     private ImageView imgPost;
@@ -40,6 +44,7 @@ public class VerPublicacionActivity extends AppCompatActivity {
     private RelativeLayout contentLayout;
     private RelativeLayout profileLayout;
     private RecyclerView comentarios;
+    YouTubePlayerView video;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +72,29 @@ public class VerPublicacionActivity extends AppCompatActivity {
         contentLayout = findViewById(R.id.relativeLayout_vPublicacion_content);
         imgCurrentUser = findViewById(R.id.img_vPublicacion_miComentario);
         comentarios = findViewById(R.id.recyclerView_vPublicacion_comentarios);
+        video = findViewById(R.id.video_vPublicacion);
+
+        reactButton.setDefaultReaction(reactions[0]);
+        reactButton.setReactions(reactions[1],reactions[2],reactions[3],reactions[4],reactions[5],reactions[6]);
+        Reaccion reaccion = new Reaccion(MenuActivity.usuario.getId(),0);
+        Log.i("Resultados",post.toString());
+        if(post.getReacciones().contains(reaccion)){
+            Reaccion reaccionUsuario = post.getReacciones().get(post.getReacciones().indexOf(reaccion));
+
+            reactButton.setCurrentReaction(reactions[reaccionUsuario.getTipoReaccion()]);
+        }
+        else{
+            reactButton.setCurrentReaction(reactButton.getDefaultReaction());
+        }
 
 
+
+        if (!MenuActivity.usuario.getLinkImgPerfil().equals("")){
+            Glide.with(getApplicationContext()).load(MenuActivity.usuario.getLinkImgPerfil()).into(imgCurrentUser);
+        }
+        else{
+            imgCurrentUser.setImageResource(R.drawable.ic_profile);
+        }
 
         if (!post.getAuthorPhoto().equals("")){
             Glide.with(getApplicationContext()).load(post.getAuthorPhoto()).into(imgPerfilAutor);
@@ -80,26 +106,20 @@ public class VerPublicacionActivity extends AppCompatActivity {
         switch (post.getTipo()){
             case "IMAGE":
                 Glide.with(getApplicationContext()).load(post.getImageURI()).into(imgPost);
-                ViewGroup.LayoutParams params= imgPost.getLayoutParams();
-                params.height = 600;
-                imgPost.setLayoutParams(params);
+                imgPost.setVisibility(View.VISIBLE);
                 break;
             case "VIDEO":
+                video.initialize("AIzaSyDeieVxJzbBFmU5NSge6Q2kVLJsXlDIMKI",this);
+                video.setVisibility(View.VISIBLE);
                 break;
+            default:
+                video.setVisibility(View.GONE);
+                imgPost.setVisibility(View.GONE);
         }
 
         textPost.setText(post.getDescripcion());
         textNombreAutor.setText(post.getAuthorName());
         textFechaPost.setText(post.obtenerTimestampDifference());
-        Reaccion reaccion = new Reaccion(MenuActivity.usuario.getId(),0);
-        if(post.getReacciones().contains(reaccion)){
-            Reaccion reaccionUsuario = post.getReacciones().get(post.getReacciones().indexOf(reaccion));
-
-            reactButton.setCurrentReaction(reactions[reaccionUsuario.getTipoReaccion()]);
-        }
-        else{
-            reactButton.setCurrentReaction(reactButton.getDefaultReaction());
-        }
 
 
 
@@ -150,4 +170,25 @@ public class VerPublicacionActivity extends AppCompatActivity {
         }
 
     }
+
+
+    @Override
+    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player,
+                                        boolean wasRestored) {
+        if (!wasRestored) {
+            String tokens[] = post.getVideoUrl().split("v=");
+            if (tokens.length == 1) {
+                tokens = post.getVideoUrl().split("/");
+            }
+            String idVideo = tokens[tokens.length -1];
+            player.cueVideo(idVideo);
+        }
+    }
+
+    @Override
+    protected YouTubePlayer.Provider getYouTubePlayerProvider() {
+        return video;
+    }
+
+
 }

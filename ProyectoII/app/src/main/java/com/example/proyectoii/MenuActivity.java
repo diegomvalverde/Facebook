@@ -3,6 +3,7 @@ package com.example.proyectoii;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
@@ -35,7 +36,9 @@ import com.example.proyectoii.ProfileUtils.ProfileEditor;
 import com.example.proyectoii.Objetos.Usuario;
 import com.example.proyectoii.Utils.TabAdapter;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -189,7 +192,9 @@ public class MenuActivity extends AppCompatActivity {
             final FirebaseDatabase database = FirebaseDatabase.getInstance();
             FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
             DatabaseReference myRef = database.getReference("usuarios/" + firebaseAuth.getCurrentUser().getUid());
-
+            FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+            firebaseUser.updateEmail("Nuevo email");
+            firebaseAuth.updateCurrentUser(firebaseUser);
             myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

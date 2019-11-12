@@ -31,19 +31,9 @@ public class PostWithUser extends PostObject implements Parcelable  {
         super(idPost, descripcion, imageURI, videoUrl, authorId, tipo, fecha);
         this.authorName = authorName;
         this.authorPhoto = authorPhoto;
-        if(reacciones == null){
-            this.reacciones = new ArrayList<>();
-        }
-        else{
-            this.reacciones = reacciones;
-        }
+        this.reacciones = reacciones;
+        this.comentarios = comentarios;
 
-        if(comentarios == null){
-            this.comentarios = new ArrayList<>();
-        }
-        else{
-            this.comentarios = comentarios;
-        }
 
 
     }
