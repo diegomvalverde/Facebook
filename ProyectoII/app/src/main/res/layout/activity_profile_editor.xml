@@ -18,8 +18,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="141dp"
-            android:layout_marginTop="353dp"
+            android:layout_marginStart="139dp"
+            android:layout_marginTop="356dp"
             android:ems="10"
             android:inputType="textPersonName"
             android:text="@gmai.com"
@@ -46,6 +46,18 @@
             android:layout_marginStart="54dp"
             android:layout_marginTop="441dp"
             android:text="Educación"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/cityLbl2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="42dp"
+            android:layout_marginTop="516dp"
+            android:text="Nacimiento"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textSize="18sp" />
 
@@ -155,7 +167,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="138dp"
+            android:layout_marginStart="141dp"
             android:layout_marginTop="420dp"
             android:ems="10"
             android:gravity="start|top"
@@ -167,10 +179,34 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="161dp"
-            android:layout_marginTop="538dp"
+            android:layout_marginStart="106dp"
+            android:layout_marginTop="629dp"
             android:onClick="editProfile"
-            android:text="Button" />
+            android:text="Editar" />
+
+        <Button
+            android:id="@+id/button2"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="237dp"
+            android:layout_marginTop="629dp"
+            android:onClick="cancelEdit"
+            android:text="Cancelar" />
+
+        <DatePicker
+            android:id="@+id/datePicker"
+            android:layout_width="234dp"
+            android:layout_height="95dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="474dp"
+            android:layout_marginEnd="29dp"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"
+            android:spinnersShown="true" />
 
     </RelativeLayout>
 </ScrollView>
