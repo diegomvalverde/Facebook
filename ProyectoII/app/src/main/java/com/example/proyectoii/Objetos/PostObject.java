@@ -1,7 +1,5 @@
 package com.example.proyectoii.Objetos;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -19,7 +17,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-public class PostObject implements Parcelable {
+public class PostObject {
     protected String idPost;
     protected String descripcion;
     protected String imageURI;
@@ -54,27 +52,6 @@ public class PostObject implements Parcelable {
         this.fecha = fecha;
     }
 
-    protected PostObject(Parcel in) {
-        idPost = in.readString();
-        descripcion = in.readString();
-        imageURI = in.readString();
-        videoUrl = in.readString();
-        authorId = in.readString();
-        tipo = in.readString();
-        fecha = in.readString();
-    }
-
-    public static final Creator<PostObject> CREATOR = new Creator<PostObject>() {
-        @Override
-        public PostObject createFromParcel(Parcel in) {
-            return new PostObject(in);
-        }
-
-        @Override
-        public PostObject[] newArray(int size) {
-            return new PostObject[size];
-        }
-    };
 
     public String obtenerTimestampDifference(){
 
@@ -212,19 +189,4 @@ public class PostObject implements Parcelable {
         this.authorId = authorId;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(idPost);
-        parcel.writeString(descripcion);
-        parcel.writeString(imageURI);
-        parcel.writeString(videoUrl);
-        parcel.writeString(authorId);
-        parcel.writeString(tipo);
-        parcel.writeString(fecha);
-    }
 }

@@ -11,6 +11,9 @@ public class Reaccion implements Parcelable {
     private String idAutor;
     private int tipoReaccion;
 
+    public Reaccion() {
+    }
+
     public Reaccion(String idAutor, int tipoReaccion) {
         this.idAutor = idAutor;
         this.tipoReaccion = tipoReaccion;

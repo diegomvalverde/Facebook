@@ -11,11 +11,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PostWithUser extends PostObject implements Parcelable  {
+public class PostWithUser extends PostObject implements Parcelable {
     private String authorName;
     private String authorPhoto;
     private ArrayList<Reaccion> reacciones;
     private ArrayList<Comentario> comentarios;
+
+    public PostWithUser(){
+
+    }
 
     public PostWithUser(String authorId, String descripcion,String tipo,String idPost, String authorName,String authorPhoto) {
         super(authorId, descripcion,idPost);
@@ -38,8 +42,15 @@ public class PostWithUser extends PostObject implements Parcelable  {
 
     }
 
+
     protected PostWithUser(Parcel in) {
-        super(in);
+        idPost = in.readString();
+        descripcion = in.readString();
+        imageURI = in.readString();
+        videoUrl = in.readString();
+        authorId = in.readString();
+        tipo = in.readString();
+        fecha = in.readString();
         authorName = in.readString();
         authorPhoto = in.readString();
         reacciones = in.createTypedArrayList(Reaccion.CREATOR);
@@ -48,9 +59,17 @@ public class PostWithUser extends PostObject implements Parcelable  {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
+        dest.writeString(idPost);
+        dest.writeString(descripcion);
+        dest.writeString(imageURI);
+        dest.writeString(videoUrl);
+        dest.writeString(authorId);
+        dest.writeString(tipo);
+        dest.writeString(fecha);
         dest.writeString(authorName);
         dest.writeString(authorPhoto);
+        dest.writeTypedList(reacciones);
+        dest.writeTypedList(comentarios);
     }
 
     @Override
@@ -179,4 +198,6 @@ public class PostWithUser extends PostObject implements Parcelable  {
 
         return msg;
     }
+
+
 }

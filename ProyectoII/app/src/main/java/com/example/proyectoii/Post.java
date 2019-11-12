@@ -68,7 +68,10 @@ public class Post extends AppCompatActivity {
             public void onClick(View v) {
                 // open gallery to select image
                 setLayout(IMAGE);
-                pickFromGallery();
+                if(imgselected){
+                    pickFromGallery();
+                }
+
             }
         });
 
@@ -97,31 +100,50 @@ public class Post extends AppCompatActivity {
             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
             String key = mDatabase.child("posts").push().getKey();
             PostObject newPost = new PostObject(firebaseAuth.getUid(), post.getText().toString(),key);
+           boolean espacioVacio = false;
             if (imgselected) {
-                uploadImage(key);
-                newPost.setTipo("IMAGE");
+                if (!selectedImg.getPath().isEmpty()) {
+                    uploadImage(key);
+                    newPost.setTipo("IMAGE");
+                }
+                else{
+                    espacioVacio = true;
+                    Toast.makeText(this, "No se ha seleccionado una imagen", Toast.LENGTH_SHORT).show();
+                }
             } else if (vidselected) {
                 EditText vidurl = findViewById(R.id.ytlink);
-                newPost.setVideoUrl(vidurl.getText().toString());
-                newPost.setTipo("VIDEO");
+                if (!vidurl.getText().toString().isEmpty()){
+                    newPost.setVideoUrl(vidurl.getText().toString());
+                    newPost.setTipo("VIDEO");
+                }
+                else{
+                    espacioVacio = true;
+                    Toast.makeText(this, "No se ha introducido el link del video", Toast.LENGTH_SHORT).show();
+                }
+
             } else {
                 newPost.setTipo("TEXT");
             }
-            mDatabase.child("posts").child(key).setValue(newPost)
-            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    Toast.makeText(Post.this, "Post publicado", Toast.LENGTH_SHORT).show();
-                    HomeFragment.contadorPublicaciones = -1;
-                    finish();
-                }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(Post.this, "No fue posible publicar el post", Toast.LENGTH_SHORT).show();
-                }
-            });
+            if (!espacioVacio){
+                mDatabase.child("posts").child(key).setValue(newPost)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Toast.makeText(Post.this, "Post publicado", Toast.LENGTH_SHORT).show();
+                                HomeFragment.contadorPublicaciones = -1;
+                                finish();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(Post.this, "No fue posible publicar el post", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        }
+        else{
+            Toast.makeText(this, "La publicación debe tener una descripción", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -131,17 +153,35 @@ public class Post extends AppCompatActivity {
         EditText addLink = findViewById(R.id.ytlink);
 
         if (media == IMAGE) {
+            if(!imgselected){
+                addIcon.setImageResource(R.drawable.image);
+                imgselected = true;
+            }
+            else{
+                addIcon.setImageResource(R.drawable.imagedisabled);
+                imgselected = false;
+                preview.setImageURI(null);
+                preview.setVisibility(View.INVISIBLE);
+                selectedImg = Uri.parse("");
+            }
             addLink.setVisibility(View.INVISIBLE);
-            addIcon.setImageResource(R.drawable.image);
             addVidIcon.setImageResource(R.drawable.videoplayerdisabled);
-            imgselected = true;
             vidselected = false;
         } else if (media == VIDEO) {
-            addLink.setVisibility(View.VISIBLE);
-            addIcon.setImageResource(R.drawable.imagedisabled);
-            addVidIcon.setImageResource(R.drawable.videoplayer);
+            if(!vidselected){
+                addLink.setVisibility(View.VISIBLE);
+                addVidIcon.setImageResource(R.drawable.videoplayer);
+                preview.setVisibility(View.INVISIBLE);
+                vidselected = true;
+            }
+            else{
+                addLink.setVisibility(View.INVISIBLE);
+                addLink.setText("");
+                addVidIcon.setImageResource(R.drawable.videoplayerdisabled);
+                vidselected = false;
+            }
             preview.setVisibility(View.INVISIBLE);
-            vidselected = true;
+            addIcon.setImageResource(R.drawable.imagedisabled);
             imgselected = false;
         }
     }

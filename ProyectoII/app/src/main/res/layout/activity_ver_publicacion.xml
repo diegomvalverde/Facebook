@@ -148,6 +148,7 @@
                     android:background="@color/colorPrimary"
                     android:textColor="@android:color/white"
                     android:text="Publicar"
+                    android:onClick="onClickPublicar"
                     android:textAllCaps="false"/>
 
             </RelativeLayout>

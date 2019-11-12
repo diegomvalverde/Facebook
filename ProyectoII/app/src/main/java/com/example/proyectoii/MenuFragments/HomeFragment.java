@@ -106,10 +106,11 @@ public class HomeFragment extends Fragment implements RecyclerViewPostAdapter.On
                         PostWithUser post = new PostWithUser(usuario.getId(),postObject.getDescripcion(),postObject.getTipo(),postObject.getIdPost(),username,usuario.getLinkImgPerfil());
 
                         for(DataSnapshot reactionSnapshot: singleSnapshot.child("reacciones").getChildren()){
-                            String autorReaccion = reactionSnapshot.child("idAutor").getValue(String.class);
-                            int tipoReaccion = reactionSnapshot.child("tipoReaccion").getValue(Integer.class);
+                            //String autorReaccion = reactionSnapshot.child("idAutor").getValue(String.class);
+                            //int tipoReaccion = reactionSnapshot.child("tipoReaccion").getValue(Integer.class);
+                            Reaccion reaccion = reactionSnapshot.getValue(Reaccion.class);
 
-                            post.getReacciones().add(new Reaccion(autorReaccion,tipoReaccion));
+                            post.getReacciones().add(reaccion);
                         }
 
                         for(DataSnapshot commentSnapshot: singleSnapshot.child("comentarios").getChildren()){
@@ -239,6 +240,7 @@ public class HomeFragment extends Fragment implements RecyclerViewPostAdapter.On
     public void agregarReaccion(Reaccion reaccion,int reaccionIndex,PostWithUser post){
         final FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
         final DatabaseReference myRef  = mFirebaseDatabase.getReference();
+
         if (reaccion.getTipoReaccion() != 0) {
             myRef.child("posts")
                     .child(post.getIdPost())

@@ -87,10 +87,12 @@ public class RecyclerViewPostAdapter extends RecyclerView.Adapter<RecyclerViewPo
 
         switch (post.get(position).getTipo()){
             case "IMAGE":
+                holder.relativeLayoutVideo.setVisibility(View.GONE);
                 Glide.with(mContext).load(holder.postWithUser.getImageURI()).into(holder.imgPost);
                 holder.imgPost.setVisibility(View.VISIBLE);
                 break;
             case "VIDEO":
+                holder.imgPost.setVisibility(View.GONE);
                 String tokens[] = holder.postWithUser.getVideoUrl().split("v=");
                 if (tokens.length == 1) {
                     tokens = holder.postWithUser.getVideoUrl().split("/");
@@ -116,6 +118,22 @@ public class RecyclerViewPostAdapter extends RecyclerView.Adapter<RecyclerViewPo
         }
         else{
             holder.reactButton.setCurrentReaction(holder.reactButton.getDefaultReaction());
+        }
+        
+        if(!holder.postWithUser.getComentarios().isEmpty()){
+            if (holder.postWithUser.getComentarios().size() == 1){
+                holder.textNumComentarios.setText("1 comentario");
+                
+            }
+            else{
+                holder.textNumComentarios.setText(holder.postWithUser.getComentarios().size() + " comentarios");
+            }
+
+            holder.textNumComentarios.setVisibility(View.VISIBLE);
+        }
+
+        else {
+            holder.textNumComentarios.setVisibility(View.GONE);
         }
 
 
