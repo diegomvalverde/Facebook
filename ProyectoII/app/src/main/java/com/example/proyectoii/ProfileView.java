@@ -21,6 +21,7 @@ import com.amrdeveloper.reactbutton.ReactButton;
 import com.amrdeveloper.reactbutton.Reaction;
 import com.example.proyectoii.Objetos.Comentario;
 import com.example.proyectoii.Objetos.Educacion;
+import com.example.proyectoii.Objetos.FriendRequest;
 import com.example.proyectoii.Objetos.PostObject;
 import com.example.proyectoii.Objetos.PostWithUser;
 import com.example.proyectoii.Objetos.Reaccion;
@@ -52,7 +53,12 @@ public class ProfileView extends AppCompatActivity implements RecyclerViewPostAd
     TextView textView;
     TextView infoTxt;
     Button viewGallery;
+    private Button addButton;
 
+    public void addUser(View view)
+    {
+        FriendRequest.sendRequest(new FriendRequest(usuario.getId()));
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,6 +90,11 @@ public class ProfileView extends AppCompatActivity implements RecyclerViewPostAd
     }
 
     public void initializeElems() {
+        addButton =  findViewById(R.id.acceptButton);
+        if (MenuActivity.usuario.getAmigos().contains(usuario.getId()))
+        {
+            addButton.setEnabled(false);
+        }
 
         if (!usuario.getLinkImgPerfil().equals(""))
         {
