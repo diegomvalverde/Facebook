@@ -19,4 +19,6 @@ public class FriendRequest extends Fragment {
         return inflater.inflate(R.layout.fragment_friend_request, container, false);
     }
 
+
+
 }

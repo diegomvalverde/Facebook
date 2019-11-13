@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".BeforeLogin.RecoverPasswordActivity"
             android:theme="@style/ActivityWithToolbar"></activity>
-        <activity android:name=".ProfileUtils.ProfileEditor" />
+        <activity android:name=".ProfileUtils.ProfileEditor" android:parentActivityName=".MenuActivity"/>
         <activity
             android:name=".VerPublicacionActivity"
             android:theme="@style/ActivityWithToolbar" />
