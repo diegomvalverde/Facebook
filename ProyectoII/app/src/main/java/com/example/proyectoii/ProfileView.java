@@ -48,18 +48,43 @@ public class ProfileView extends AppCompatActivity implements RecyclerViewPostAd
     private ImageView profileImage;
     public static int contadorPublicaciones ;
     private Usuario usuario;
-
+    FloatingActionButton fab;
+    TextView textView;
+    TextView infoTxt;
+    Button viewGallery;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_view);
-
-        String userid = getIntent().getStringExtra("USERID");
-        //set user
-
         profileImage = findViewById(R.id.profileImg);
+        fab = findViewById(R.id.fab);
+        textView = findViewById(R.id.nameTxt);
+        infoTxt = findViewById(R.id.infoTxt);
+        viewGallery = findViewById(R.id.btn_gallery);
+
+        final String userid = getIntent().getStringExtra("USERID");
+        Query query = myRef;
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                usuario = dataSnapshot.child("usuarios").child(userid).getValue(Usuario.class);
+
+                //Ejecute una funcion que inicialice los elementos del activy
+                initializeElems();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    public void initializeElems() {
+
         if (!usuario.getLinkImgPerfil().equals(""))
         {
             profileImage.setImageDrawable(null);
@@ -72,7 +97,7 @@ public class ProfileView extends AppCompatActivity implements RecyclerViewPostAd
         posts = new ArrayList<>();
         obtenerPost(user);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,7 +107,7 @@ public class ProfileView extends AppCompatActivity implements RecyclerViewPostAd
         });
 
 
-        TextView textView = findViewById(R.id.nameTxt);
+
         textView.setText(String.format("%s %s", usuario.getNombre(), usuario.getApellido()));
 
         StringBuilder userInfo = new StringBuilder(String.format("%s %s", "Fecha de nacimiento:", usuario.getFechaNac()));
@@ -99,12 +124,12 @@ public class ProfileView extends AppCompatActivity implements RecyclerViewPostAd
                 userInfo.append("\n");
                 userInfo.append(String.format("%s %s", String.format("%s:", education.getTipoInstitucion()), education.getNombreInstitucion()));
             }
-        TextView infoTxt = findViewById(R.id.infoTxt);
+
 
         infoTxt.setText(userInfo.toString());
 
 
-        Button viewGallery = view.findViewById(R.id.btn_gallery);
+
         viewGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -302,7 +327,7 @@ public class ProfileView extends AppCompatActivity implements RecyclerViewPostAd
     }
 
     public void iniciarRecyclerView(){
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
         RecyclerViewPostAdapter adapter = new RecyclerViewPostAdapter(getApplicationContext(),posts,this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
