@@ -78,7 +78,7 @@ public class ProfileView extends AppCompatActivity implements RecyclerViewPostAd
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_view);
         profileImage = findViewById(R.id.profileImg);
-        fab = findViewById(R.id.fab);
+
         textView = findViewById(R.id.nameTxt);
         infoTxt = findViewById(R.id.infoTxt);
         viewGallery = findViewById(R.id.btn_gallery);
