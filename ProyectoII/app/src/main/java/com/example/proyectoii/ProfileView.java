@@ -58,11 +58,19 @@ public class ProfileView extends AppCompatActivity implements RecyclerViewPostAd
     public void addUser(View view)
     {
         FriendRequest.sendRequest(new FriendRequest(usuario.getId()));
+        Toast.makeText(this, "Se ha enviado la solicitud correctamente", Toast.LENGTH_SHORT).show();
     }
 
     public void cancelEdit(View view)
     {
         finish();
+    }
+
+    public void watchFriends(View view)
+    {
+        Intent intent = new Intent(this, FriendsView.class);
+        intent.putExtra("userId", usuario.getId());
+        startActivity(intent);
     }
 
     @Override
@@ -77,6 +85,11 @@ public class ProfileView extends AppCompatActivity implements RecyclerViewPostAd
         addButton =  findViewById(R.id.addUserBtn);
 
         final String userid = getIntent().getStringExtra("USERID");
+        if (MenuActivity.usuario.getAmigos().contains(userid))
+        {
+            addButton.setEnabled(false);
+        }
+
         Query query = myRef;
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -96,11 +109,6 @@ public class ProfileView extends AppCompatActivity implements RecyclerViewPostAd
     }
 
     public void initializeElems() {
-
-        if (MenuActivity.usuario.getAmigos().contains(usuario.getId()))
-        {
-            addButton.setEnabled(false);
-        }
 
         if (!usuario.getLinkImgPerfil().equals(""))
         {

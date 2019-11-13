@@ -19,6 +19,12 @@ public class UserPreview {
         this.nombre = nombre;
     }
 
+    public UserPreview(String nombre, String id, String profilepic) {
+        this.nombre = nombre;
+        this.id = id;
+        this.profilepic = profilepic;
+    }
+
     public String getId() {
         return id;
     }
