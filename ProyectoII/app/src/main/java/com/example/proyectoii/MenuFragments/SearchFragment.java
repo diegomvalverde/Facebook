@@ -137,12 +137,12 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
         return isIn;
     }
 
-    public void orderList() {
+    public ArrayList<PostWithUser> orderList(ArrayList<PostWithUser> list) {
         ArrayList<PostWithUser> orderedArray = new ArrayList<>();
-        for (int i=0; i<postsList.size(); i++) {
-            orderedArray.add(postsList.get(i));
+        for (int i=list.size()-1; i>=0; i--) {
+            orderedArray.add(list.get(i));
         }
-        postsList = orderedArray;
+        return orderedArray;
     }
 
     public void searchUser(String s) {
@@ -235,7 +235,7 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
                             postWithUser.getComentarios().add(comentariosDs.getValue(Comentario.class));
                         }
                         postsList.add(postWithUser);
-
+                        postsList = orderList(postsList);
                     }
                 }
             }
