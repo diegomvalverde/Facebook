@@ -1,5 +1,6 @@
 package com.example.proyectoii.MenuFragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,14 +22,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.amrdeveloper.reactbutton.ReactButton;
 import com.amrdeveloper.reactbutton.Reaction;
 import com.example.proyectoii.MenuActivity;
+import com.example.proyectoii.Objetos.Comentario;
 import com.example.proyectoii.Objetos.PostObject;
 import com.example.proyectoii.Objetos.PostWithUser;
 import com.example.proyectoii.Objetos.Reaccion;
 import com.example.proyectoii.Objetos.UserPreview;
 import com.example.proyectoii.Objetos.Usuario;
+import com.example.proyectoii.Post;
 import com.example.proyectoii.R;
 import com.example.proyectoii.Utils.RecyclerViewPostAdapter;
 import com.example.proyectoii.Utils.RecyclerViewUserAdapter;
+import com.example.proyectoii.VerPublicacionActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -133,6 +137,14 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
         return isIn;
     }
 
+    public void orderList() {
+        ArrayList<PostWithUser> orderedArray = new ArrayList<>();
+        for (int i=0; i<postsList.size(); i++) {
+            orderedArray.add(postsList.get(i));
+        }
+        postsList = orderedArray;
+    }
+
     public void searchUser(String s) {
         usersList.clear();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -191,7 +203,7 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
     public void searchPost(final String s) {
         postsList.clear();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        Query query = databaseReference.orderByPriority();
+        Query query = databaseReference.orderByValue();
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -214,7 +226,14 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
                                 postWithUser.setVideoUrl(post.getVideoUrl());
                                 break;
                         }
-                        //TODO add reacciones y comentarios
+                        for (DataSnapshot reaccionesDS: dss.child("reacciones").getChildren()) {
+                            Reaccion reaccion = reaccionesDS.getValue(Reaccion.class);
+                            postWithUser.getReacciones().add(reaccion);
+                        }
+
+                        for (DataSnapshot comentariosDs: dss.child("comentarios").getChildren()) {
+                            postWithUser.getComentarios().add(comentariosDs.getValue(Comentario.class));
+                        }
                         postsList.add(postWithUser);
 
                     }
@@ -245,7 +264,9 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
 
     @Override
     public void onPostClick(PostWithUser postWithUser) {
-        Toast.makeText(getContext(), postWithUser.getImageURI(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getContext(), VerPublicacionActivity.class);
+        intent.putExtra("Post",postWithUser);
+        startActivity(intent);
     }
 
     @Override
@@ -310,18 +331,22 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
 
     @Override
     public void onCommentClick(PostWithUser postWithUser) {
-
+        Intent intent = new Intent(getContext(), VerPublicacionActivity.class);
+        intent.putExtra("Post",postWithUser);
+        intent.putExtra("Comentario",true);
+        startActivity(intent);
     }
 
     @Override
     public void onProfileClick(String idUser) {
-
+        Toast.makeText(getContext(), "Abrir perfil de " + idUser, Toast.LENGTH_SHORT).show();
     }
 
 
     public void agregarReaccion(Reaccion reaccion,int reaccionIndex,PostWithUser post){
         final FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
         final DatabaseReference myRef  = mFirebaseDatabase.getReference();
+
         if (reaccion.getTipoReaccion() != 0) {
             myRef.child("posts")
                     .child(post.getIdPost())
@@ -330,7 +355,6 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
                     .setValue(reaccion);
         }
         else{
-            Log.i("Resultados","Entre");
             myRef.child("posts")
                     .child(post.getIdPost())
                     .child("reacciones")
