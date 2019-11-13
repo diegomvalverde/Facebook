@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EliminarActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="60sp"
+            android:background="@color/colorPrimary">
+
+            <Button
+                android:id="@+id/btn_Eliminar_back"
+                android:layout_width="25sp"
+                android:layout_height="23sp"
+                android:background="@drawable/ic_arrow_back"
+                android:onClick="onClickBack" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:textColor="@android:color/white"
+                android:layout_marginStart="40sp"
+                android:text="Eliminar cuenta"/>
+
+        </Toolbar>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar">
+
+            <Button
+                android:id="@+id/btn_Options_Eliminar"
+                android:layout_width="160sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textInput_Eliminar_Contrasena"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="45sp"
+                android:layout_marginBottom="30sp"
+                android:background="@color/colorPrimary"
+                android:text="Eliminar cuenta"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:onClick="onClickEliminar"/>
+
+            <TextView
+                android:id="@+id/textError_Eliminar_Contrasena"
+                android:layout_width="wrap_content"
+                android:layout_height="30sp"
+                android:layout_centerHorizontal="true"
+
+                android:layout_marginTop="50sp"
+                android:textColor="@color/Error"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="25sp"
+                android:text="Introduce tu contraseña"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInput_Eliminar_Contrasena"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textError_Eliminar_Contrasena"
+                android:layout_centerHorizontal="true"
+                android:textColorHint="@color/colorPrimary"
+                android:theme="@style/NormalTextInput">
+
+
+                <EditText
+                    android:id="@+id/editText_Eliminar_Contrasena"
+                    android:layout_width="230sp"
+                    android:layout_height="45sp"
+                    android:hint="Contraseña"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword"
+                    android:textColor="@android:color/black" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </RelativeLayout>
+
+
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout_Eliminar_Cargando"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="125sp"
+            android:layout_height="125sp"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+</RelativeLayout>

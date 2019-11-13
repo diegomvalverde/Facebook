@@ -18,7 +18,8 @@ public class PostWithUser extends PostObject implements Parcelable {
     private ArrayList<Comentario> comentarios;
 
     public PostWithUser(){
-
+        reacciones = new ArrayList<>();
+        comentarios = new ArrayList<>();
     }
 
     public PostWithUser(String authorId, String descripcion,String tipo,String idPost, String authorName,String authorPhoto) {
