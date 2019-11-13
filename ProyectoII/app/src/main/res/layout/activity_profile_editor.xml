@@ -12,6 +12,34 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/btn_post_back"
+                android:layout_width="25sp"
+                android:layout_height="23sp"
+                android:background="@drawable/ic_arrow_back"
+                android:onClick="cancelEdit"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="16dp" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40sp"
+                android:text="Edición de perfil"
+                android:textColor="@android:color/white"
+                android:textSize="22sp" />
+
+        </Toolbar>
+
         <EditText
             android:id="@+id/mailTxt"
             android:layout_width="wrap_content"

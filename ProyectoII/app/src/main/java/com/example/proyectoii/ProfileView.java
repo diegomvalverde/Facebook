@@ -60,6 +60,11 @@ public class ProfileView extends AppCompatActivity implements RecyclerViewPostAd
         FriendRequest.sendRequest(new FriendRequest(usuario.getId()));
     }
 
+    public void cancelEdit(View view)
+    {
+        finish();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
