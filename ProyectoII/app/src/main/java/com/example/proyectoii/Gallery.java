@@ -19,7 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class gallery extends AppCompatActivity {
+public class Gallery extends AppCompatActivity {
 
     private String userid;
     private ArrayList<String> userImgs;
@@ -41,7 +41,7 @@ public class gallery extends AppCompatActivity {
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot dss: dataSnapshot.getChildren()) {
+                for (DataSnapshot dss: dataSnapshot.child("posts").getChildren()) {
                     PostObject post = dss.getValue(PostObject.class);
                     if (post.getAuthorId().equals(userid)) {
                         if (post.getTipo().equals("IMAGE")){

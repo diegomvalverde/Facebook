@@ -66,7 +66,7 @@ public class Post extends AppCompatActivity {
         addImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // open gallery to select image
+                // open Gallery to select image
                 setLayout(IMAGE);
                 if(imgselected){
                     pickFromGallery();

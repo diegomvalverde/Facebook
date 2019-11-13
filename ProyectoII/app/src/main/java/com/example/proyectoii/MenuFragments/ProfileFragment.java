@@ -107,7 +107,7 @@ public class ProfileFragment extends Fragment implements RecyclerViewPostAdapter
         infoTxt.setText(userInfo.toString());
 
 
-        // Diplay the user photos in gallery scrollable
+        // Diplay the user photos in Gallery scrollable
         ViewPager viewPager =  view.findViewById(R.id.view_pager);
         String[] images = {"https://images.unsplash.com/photo-1535498730771-e735b998cd64?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
                 "https://images.unsplash.com/photo-1535498730771-e735b998cd64?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80"};
