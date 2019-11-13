@@ -113,21 +113,7 @@ public class LogInActivity extends AppCompatActivity {
                 .requestEmail()
                 .build();
        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference();
-        StorageReference publicacionesRef = storageRef.child("FotosPublicaciones/"+MenuActivity.usuario.getId()+"/");
 
-        publicacionesRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Toast.makeText(LogInActivity.this, "Bien", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                Toast.makeText(LogInActivity.this, "Mal", Toast.LENGTH_SHORT).show();
-            }
-        });
 
     }
 

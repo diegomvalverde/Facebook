@@ -46,7 +46,7 @@ public class EliminarActivity extends AppCompatActivity {
 
     private RelativeLayout rLCargando;
 
-    private boolean isEliminando;
+    private static boolean isEliminando;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +96,8 @@ public class EliminarActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
+                                        FirebaseAuth auth = FirebaseAuth.getInstance();
+                                        auth.signOut();
                                         eliminarCuenta();
                                     }
                                     else {
