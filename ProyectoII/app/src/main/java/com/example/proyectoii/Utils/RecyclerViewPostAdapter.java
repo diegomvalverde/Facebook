@@ -219,6 +219,8 @@ public class RecyclerViewPostAdapter extends RecyclerView.Adapter<RecyclerViewPo
             video = itemView.findViewById(R.id.video_post);
             relativeLayoutVideo = itemView.findViewById(R.id.relativeLayout_post_video);
             this.onPostListener = onPostListener;
+
+            RelativeLayout relativeLayout = itemView.findViewById(R.id.btn_comentar);
             
             
             reactButton.setReactDismissListener(this);
@@ -228,13 +230,17 @@ public class RecyclerViewPostAdapter extends RecyclerView.Adapter<RecyclerViewPo
             contentLayout.setOnClickListener(this);
             profileLayout = itemView.findViewById(R.id.relativeLayout_post_top);
             profileLayout.setOnClickListener(this);
+            relativeLayoutVideo.setOnClickListener(this);
+            textPost.setOnClickListener(this);
+            relativeLayout.setOnClickListener(this);
+
         }
 
         @Override
         public void onClick(View view) {
             switch (view.getId()){
                 case R.id.relativeLayout_post_content:
-                    onPostListener.onPostClick(postWithUser);
+                    onPostListener.onContentClick(postWithUser);
 
                     break;
                 case R.id.likeButton:
@@ -244,9 +250,17 @@ public class RecyclerViewPostAdapter extends RecyclerView.Adapter<RecyclerViewPo
                 case R.id.relativeLayout_post_top:
                     onPostListener.onProfileClick(postWithUser.getAuthorId());
                     break;
-                case R.id.linearLayout_comentar:
+                case R.id.btn_comentar:
                     onPostListener.onCommentClick(postWithUser);
                     break;
+                case R.id.text_post:
+                    onPostListener.onTextClick(postWithUser);
+                    break;
+                case R.id.relativeLayout_post_video:
+                    onPostListener.onContentClick(postWithUser);
+                    break;
+
+
 
             }
         }
@@ -268,7 +282,8 @@ public class RecyclerViewPostAdapter extends RecyclerView.Adapter<RecyclerViewPo
 
 
     public interface  OnPostListener{
-        void onPostClick(PostWithUser postWithUser);
+        void onContentClick(PostWithUser postWithUser);
+        void onTextClick(PostWithUser postWithUser);
         void onLikeClick(PostWithUser postWithUser,ReactButton reactButton);
         void onLikeLongClick(PostWithUser postWithUser,Reaction reaction);
         void onCommentClick(PostWithUser postWithUser);

@@ -262,8 +262,17 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
     }
 
+
     @Override
-    public void onPostClick(PostWithUser postWithUser) {
+    public void onContentClick(PostWithUser postWithUser) {
+        Intent intent = new Intent(getContext(), VerPublicacionActivity.class);
+        intent.putExtra("Post",postWithUser);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onTextClick(PostWithUser postWithUser) {
+
         Intent intent = new Intent(getContext(), VerPublicacionActivity.class);
         intent.putExtra("Post",postWithUser);
         startActivity(intent);
