@@ -87,6 +87,16 @@ public class VerPublicacionActivity extends YouTubeFailureRecoveryActivity imple
         recyclerViewComentarios = findViewById(R.id.recyclerView_vPublicacion_comentarios);
         video = findViewById(R.id.video_vPublicacion);
         editTextComentario = findViewById(R.id.editText_vPublicacion_Cometario);
+        profileLayout = findViewById(R.id.relativeLayout_vPublicacion_top);
+
+        profileLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ProfileView.class);
+                intent.putExtra("USERID",post.getAuthorId());
+                startActivity(intent);
+            }
+        });
 
         reactButton.setDefaultReaction(reactions[0]);
         reactButton.setReactions(reactions[1], reactions[2], reactions[3], reactions[4], reactions[5], reactions[6]);
@@ -303,7 +313,9 @@ public class VerPublicacionActivity extends YouTubeFailureRecoveryActivity imple
 
     @Override
     public void onCommentClick(String idAutor) {
-        Toast.makeText(this, "Falta abrir el usuario", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getApplicationContext(), ProfileView.class);
+        intent.putExtra("USERID",idAutor);
+        startActivity(intent);
     }
 
     public  void hideKeyboard() {

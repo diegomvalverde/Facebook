@@ -28,6 +28,7 @@ import com.example.proyectoii.Objetos.PostWithUser;
 import com.example.proyectoii.Objetos.Reaccion;
 import com.example.proyectoii.Objetos.Usuario;
 import com.example.proyectoii.Post;
+import com.example.proyectoii.ProfileView;
 import com.example.proyectoii.R;
 import com.example.proyectoii.Utils.RecyclerViewPostAdapter;
 import com.example.proyectoii.VerPublicacionActivity;
@@ -347,7 +348,9 @@ public class HomeFragment extends Fragment implements RecyclerViewPostAdapter.On
 
     @Override
     public void onProfileClick(String idUser) {
-        Toast.makeText(getContext(), "Abrir perfil de " + idUser, Toast.LENGTH_SHORT).show();
+       Intent intent = new Intent(getContext(), ProfileView.class);
+       intent.putExtra("USERID",idUser);
+       startActivity(intent);
     }
 
 
