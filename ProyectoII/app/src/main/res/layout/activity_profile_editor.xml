@@ -7,7 +7,7 @@
     android:fillViewport="true"
     tools:context=".ProfileUtils.ProfileEditor">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/editRelativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -16,197 +16,229 @@
             android:id="@+id/mailTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="139dp"
-            android:layout_marginTop="356dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="24dp"
             android:ems="10"
             android:inputType="textPersonName"
             android:text="@gmai.com"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            app:layout_constraintStart_toEndOf="@+id/cityLbl3"
+            app:layout_constraintTop_toBottomOf="@+id/cityTxt"
+            tools:layout_conversion_absoluteHeight="45dp"
+            tools:layout_conversion_absoluteWidth="214dp" />
 
         <TextView
             android:id="@+id/cityLbl3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:layout_marginStart="84dp"
-            android:layout_marginTop="374dp"
-            android:text="Correo"
+            android:layout_marginTop="42dp"
+            android:text="Correo:"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cityLbl"
+            tools:layout_conversion_absoluteHeight="24dp"
+            tools:layout_conversion_absoluteWidth="54dp" />
 
         <TextView
             android:id="@+id/cityLbl4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:layout_marginStart="54dp"
-            android:layout_marginTop="441dp"
-            android:text="Educación"
+            android:layout_marginTop="42dp"
+            android:text="Educación:"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cityLbl3"
+            tools:layout_conversion_absoluteHeight="24dp"
+            tools:layout_conversion_absoluteWidth="83dp" />
 
         <TextView
             android:id="@+id/cityLbl2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:layout_marginStart="42dp"
-            android:layout_marginTop="516dp"
-            android:text="Nacimiento"
+            android:layout_marginTop="42dp"
+            android:text="Nacimiento:"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cityLbl4"
+            tools:layout_conversion_absoluteHeight="24dp"
+            tools:layout_conversion_absoluteWidth="92dp" />
 
         <EditText
             android:id="@+id/cityTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="141dp"
-            android:layout_marginTop="279dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="24dp"
             android:ems="10"
             android:inputType="textPersonName"
             android:text="Cartago"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            app:layout_constraintStart_toEndOf="@+id/cityLbl"
+            app:layout_constraintTop_toBottomOf="@+id/contactTxt"
+            tools:layout_conversion_absoluteHeight="45dp"
+            tools:layout_conversion_absoluteWidth="214dp" />
 
         <TextView
             android:id="@+id/cityLbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:layout_marginStart="84dp"
-            android:layout_marginTop="300dp"
-            android:text="Ciudad"
+            android:layout_marginTop="42dp"
+            android:text="Ciudad:"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contactLbl"
+            tools:layout_conversion_absoluteHeight="24dp"
+            tools:layout_conversion_absoluteWidth="56dp" />
 
         <TextView
             android:id="@+id/nameLbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:layout_marginStart="75dp"
             android:layout_marginTop="91dp"
-            android:text="Nombre"
+            android:text="Nombre:"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="19sp" />
+            android:textSize="19sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="26dp"
+            tools:layout_conversion_absoluteWidth="69dp" />
 
         <TextView
             android:id="@+id/contactLbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:layout_marginStart="67dp"
-            android:layout_marginTop="229dp"
-            android:text="Teléfono"
+            android:layout_marginTop="42dp"
+            android:text="Teléfono:"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="19sp" />
+            android:textSize="19sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lastNameLbl"
+            tools:layout_conversion_absoluteHeight="26dp"
+            tools:layout_conversion_absoluteWidth="76dp" />
 
         <EditText
             android:id="@+id/lastNameTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="143dp"
-            android:layout_marginTop="140dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="24dp"
             android:ems="10"
             android:inputType="textPersonName"
             android:text="Mendez Valverde"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            app:layout_constraintStart_toEndOf="@+id/lastNameLbl"
+            app:layout_constraintTop_toBottomOf="@+id/nameTxt"
+            tools:layout_conversion_absoluteHeight="45dp"
+            tools:layout_conversion_absoluteWidth="214dp" />
 
         <EditText
             android:id="@+id/nameTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="145dp"
+            android:layout_marginStart="2dp"
             android:layout_marginTop="72dp"
             android:ems="10"
             android:inputType="textPersonName"
             android:text="Diego"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            app:layout_constraintStart_toEndOf="@+id/nameLbl"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="45dp"
+            tools:layout_conversion_absoluteWidth="214dp" />
 
         <EditText
             android:id="@+id/contactTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="211dp"
-            android:layout_marginEnd="77dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="24dp"
             android:ems="10"
             android:inputType="textPersonName"
             android:text="64475306"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            app:layout_constraintStart_toEndOf="@+id/contactLbl"
+            app:layout_constraintTop_toBottomOf="@+id/lastNameTxt"
+            tools:layout_conversion_absoluteHeight="45dp"
+            tools:layout_conversion_absoluteWidth="214dp" />
 
         <TextView
             android:id="@+id/lastNameLbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:layout_marginStart="62dp"
-            android:layout_marginTop="159dp"
-            android:text="Apellidos"
+            android:layout_marginTop="42dp"
+            android:text="Apellidos:"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="19sp" />
+            android:textSize="19sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nameLbl"
+            tools:layout_conversion_absoluteHeight="26dp"
+            tools:layout_conversion_absoluteWidth="79dp" />
 
         <EditText
             android:id="@+id/educationTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="141dp"
-            android:layout_marginTop="420dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="23dp"
             android:ems="10"
             android:gravity="start|top"
-            android:inputType="textMultiLine" />
+            android:inputType="textMultiLine"
+            app:layout_constraintStart_toEndOf="@+id/cityLbl4"
+            app:layout_constraintTop_toBottomOf="@+id/mailTxt"
+            tools:layout_conversion_absoluteHeight="45dp"
+            tools:layout_conversion_absoluteWidth="214dp" />
 
         <Button
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:layout_marginStart="106dp"
-            android:layout_marginTop="629dp"
+            android:layout_marginTop="15dp"
             android:onClick="editProfile"
-            android:text="Editar" />
+            android:text="Editar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/datePicker"
+            tools:layout_conversion_absoluteHeight="48dp"
+            tools:layout_conversion_absoluteWidth="88dp" />
 
         <Button
             android:id="@+id/button2"
             style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="237dp"
-            android:layout_marginTop="629dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="15dp"
             android:onClick="cancelEdit"
-            android:text="Cancelar" />
+            android:text="Cancelar"
+            app:layout_constraintStart_toEndOf="@+id/button"
+            app:layout_constraintTop_toBottomOf="@+id/datePicker"
+            tools:layout_conversion_absoluteHeight="48dp"
+            tools:layout_conversion_absoluteWidth="95dp" />
 
         <DatePicker
             android:id="@+id/datePicker"
-            android:layout_width="234dp"
-            android:layout_height="95dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="474dp"
-            android:layout_marginEnd="29dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="14dp"
             android:calendarViewShown="false"
             android:datePickerMode="spinner"
-            android:spinnersShown="true" />
+            android:spinnersShown="true"
+            app:layout_constraintStart_toEndOf="@+id/cityLbl2"
+            app:layout_constraintTop_toBottomOf="@+id/educationTxt"
+            tools:layout_conversion_absoluteHeight="95dp"
+            tools:layout_conversion_absoluteWidth="234dp" />
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -23,6 +23,7 @@ import com.example.proyectoii.ImageAdapter;
 import com.example.proyectoii.MenuActivity;
 import com.example.proyectoii.Objetos.Comentario;
 import com.example.proyectoii.Objetos.Educacion;
+import com.example.proyectoii.Objetos.FriendRequest;
 import com.example.proyectoii.Objetos.PostObject;
 import com.example.proyectoii.Objetos.PostWithUser;
 import com.example.proyectoii.Objetos.Reaccion;
@@ -62,6 +63,10 @@ public class ProfileFragment extends Fragment implements RecyclerViewPostAdapter
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_profile,container,false);
+
+//        FriendRequest.sendRequest(new FriendRequest(usuario.getId()));
+
+
         profileImage = view.findViewById(R.id.profileImg);
         if (!usuario.getLinkImgPerfil().equals(""))
         {
@@ -107,7 +112,7 @@ public class ProfileFragment extends Fragment implements RecyclerViewPostAdapter
         infoTxt.setText(userInfo.toString());
 
 
-        // Diplay the user photos in gallery scrollable
+        // Diplay the user photos in Gallery scrollable
         ViewPager viewPager =  view.findViewById(R.id.view_pager);
         String[] images = {"https://images.unsplash.com/photo-1535498730771-e735b998cd64?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
                 "https://images.unsplash.com/photo-1535498730771-e735b998cd64?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80"};

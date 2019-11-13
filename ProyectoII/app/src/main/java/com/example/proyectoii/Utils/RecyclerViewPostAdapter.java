@@ -200,7 +200,7 @@ public class RecyclerViewPostAdapter extends RecyclerView.Adapter<RecyclerViewPo
         RelativeLayout relativeLayoutVideo;
 
 
-        public ViewHolder(@NonNull View itemView,OnPostListener onPostListener) {
+        public ViewHolder(@NonNull View itemView, OnPostListener onPostListener) {
             super(itemView);
             view = itemView;
             imgPerfil = itemView.findViewById(R.id.img_post_perfil);
