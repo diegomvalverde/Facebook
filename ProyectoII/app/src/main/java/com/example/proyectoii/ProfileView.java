@@ -123,14 +123,6 @@ public class ProfileView extends AppCompatActivity implements RecyclerViewPostAd
         obtenerPost(user);
 
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Post.class);
-                startActivity(intent);
-            }
-        });
-
 
 
         textView.setText(String.format("%s %s", usuario.getNombre(), usuario.getApellido()));
