@@ -16,6 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <activity android:name=".EliminarActivity"></activity>
         <activity android:name=".Gallery"></activity>
         <activity android:name=".BeforeLogin.RecoverPasswordActivity"
             android:theme="@style/ActivityWithToolbar"></activity>

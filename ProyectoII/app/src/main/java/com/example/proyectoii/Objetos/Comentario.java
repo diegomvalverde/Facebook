@@ -3,6 +3,8 @@ package com.example.proyectoii.Objetos;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.Nullable;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -188,5 +190,20 @@ public class Comentario implements Parcelable {
 
 
         return difference;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if(obj == this){
+            return  true;
+        }
+        else if(obj == null || obj.getClass() != this.getClass()){
+            return false;
+        }
+        else{
+            Comentario comentario = (Comentario) obj;
+            return comentario.idAutor.equals(this.idAutor);
+        }
+
     }
 }

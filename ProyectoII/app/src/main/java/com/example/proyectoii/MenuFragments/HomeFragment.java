@@ -128,6 +128,7 @@ public class HomeFragment extends Fragment implements RecyclerViewPostAdapter.On
     public void onDestroy() {
         super.onDestroy();
         contadorPublicaciones = -1;
+        noMorePost = false;
     }
 
     @Override
@@ -135,6 +136,7 @@ public class HomeFragment extends Fragment implements RecyclerViewPostAdapter.On
         super.onStop();
         if(reiniciar){
             contadorPublicaciones = -1;
+            noMorePost = false;
         }
     }
 
@@ -159,6 +161,8 @@ public class HomeFragment extends Fragment implements RecyclerViewPostAdapter.On
                     while (contadorPublicaciones > 0 && postEncontrados < 10) {
                         DataSnapshot singleSnapshot = dataSnapshots.get(contadorPublicaciones - 1);
                         PostObject postObject = singleSnapshot.getValue(PostObject.class);
+                        PostWithUser postPrueba = singleSnapshot.getValue(PostWithUser.class);
+
 
                         String auhotID = postObject.getAuthorId();
 
