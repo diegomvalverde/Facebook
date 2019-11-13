@@ -6,6 +6,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.proyectoii.Objetos.PostObject;
 import com.example.proyectoii.Utils.RecyclerViewImgAdapter;
@@ -18,6 +21,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+
 
 public class Gallery extends AppCompatActivity {
 
@@ -33,6 +37,14 @@ public class Gallery extends AppCompatActivity {
         userImgs = new ArrayList<String>();
         getUserImgs();
         setRecyclerView();
+
+        Button back = findViewById(R.id.btn_post_back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     public void getUserImgs() {

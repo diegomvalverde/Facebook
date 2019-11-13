@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TextView;
@@ -19,6 +21,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.amrdeveloper.reactbutton.ReactButton;
 import com.amrdeveloper.reactbutton.Reaction;
+import com.example.proyectoii.Gallery;
 import com.example.proyectoii.ImageAdapter;
 import com.example.proyectoii.MenuActivity;
 import com.example.proyectoii.Objetos.Comentario;
@@ -112,13 +115,15 @@ public class ProfileFragment extends Fragment implements RecyclerViewPostAdapter
         infoTxt.setText(userInfo.toString());
 
 
-        // Diplay the user photos in Gallery scrollable
-        ViewPager viewPager =  view.findViewById(R.id.view_pager);
-        String[] images = {"https://images.unsplash.com/photo-1535498730771-e735b998cd64?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
-                "https://images.unsplash.com/photo-1535498730771-e735b998cd64?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80"};
-        ImageAdapter adapter = new ImageAdapter(this.getContext(), images);
-        viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(adapter.getCount()-1);
+        Button viewGallery = view.findViewById(R.id.btn_gallery);
+        viewGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), Gallery.class);
+                intent.putExtra("USERID", usuario.getId());
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
