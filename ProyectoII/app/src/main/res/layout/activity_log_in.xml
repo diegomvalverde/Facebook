@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".BeforeLogin.LogInActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <ImageView
         android:layout_alignParentTop="true"
@@ -101,7 +106,8 @@
         android:textSize="18sp"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
-        android:onClick="onClickCrearCuenta"/>
+        android:onClick="onClickCrearCuenta"
+        android:layout_alignParentBottom="true"/>
 
         <ProgressBar
             android:id="@+id/progressbar_Login"
@@ -110,6 +116,6 @@
             android:layout_height="120sp"
             android:layout_centerInParent="true" />
 
+    </RelativeLayout>
 
-
-</RelativeLayout>
+</ScrollView>
