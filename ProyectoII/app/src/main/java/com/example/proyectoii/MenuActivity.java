@@ -161,7 +161,7 @@ public class MenuActivity extends AppCompatActivity {
         mTabAdapter.addFragment(new HomeFragment());
         mTabAdapter.addFragment(new ProfileFragment());
         mTabAdapter.addFragment(new FriendsFragment());
-        mTabAdapter.addFragment(new NotificationFragment());
+//        mTabAdapter.addFragment(new NotificationFragment());
         mTabAdapter.addFragment(new SearchFragment());
         mTabAdapter.addFragment(new OptionsFragment());
         viewPager.setAdapter(mTabAdapter);
@@ -175,9 +175,9 @@ public class MenuActivity extends AppCompatActivity {
         tabLayout.getTabAt(0).getIcon().setColorFilter(tabIconColor,PorterDuff.Mode.SRC_IN);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_profile);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_friends);
-        tabLayout.getTabAt(3).setIcon(R.drawable.ic_notification);
-        tabLayout.getTabAt(4).setIcon(R.drawable.ic_search);
-        tabLayout.getTabAt(5).setIcon(R.drawable.ic_options);
+//        tabLayout.getTabAt(3).setIcon(R.drawable.ic_notification);
+        tabLayout.getTabAt(3).setIcon(R.drawable.ic_search);
+        tabLayout.getTabAt(4).setIcon(R.drawable.ic_options);
 
         tabLayout.addOnTabSelectedListener( new TabLayout.ViewPagerOnTabSelectedListener(viewPager){
 

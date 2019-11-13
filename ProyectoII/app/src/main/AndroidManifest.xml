@@ -16,8 +16,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FriendsView"></activity>
-        <activity android:name=".EliminarActivity" />
+        <activity android:name=".FriendsView"
+            android:theme="@style/ActivityWithToolbar"></activity>
+        <activity android:name=".EliminarActivity" android:theme="@style/ActivityWithToolbar"/>
         <activity
             android:name=".Gallery"
             android:theme="@style/ActivityWithToolbar" />
@@ -26,6 +27,7 @@
             android:theme="@style/ActivityWithToolbar" />
         <activity
             android:name=".ProfileUtils.ProfileEditor"
+            android:theme="@style/ActivityWithToolbar"
             android:parentActivityName=".MenuActivity" />
         <activity
             android:name=".VerPublicacionActivity"

@@ -266,6 +266,9 @@ public class LogInActivity extends AppCompatActivity {
                 }
             }
         }
+        else{
+            Log.i("Resultados","Hola mundo");
+        }
     }
 
     private void firebaseAuthWithGoogle(final GoogleSignInAccount account) {

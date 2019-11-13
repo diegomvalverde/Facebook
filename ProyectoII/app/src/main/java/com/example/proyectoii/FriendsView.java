@@ -1,12 +1,16 @@
 package com.example.proyectoii;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.NumberPicker;
+import android.widget.Toast;
 
 import com.example.proyectoii.Objetos.UserPreview;
 import com.example.proyectoii.Objetos.Usuario;
@@ -15,6 +19,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -38,16 +43,12 @@ public class FriendsView extends AppCompatActivity {
 
     public void all(View view)
     {
-        RecyclerViewUserAdapter recyclerViewUserAdapter = new RecyclerViewUserAdapter(this, allFriends);
-        RecyclerView recyclerView = findViewById(R.id.recyclerFriends);
-        recyclerView.setAdapter(recyclerViewUserAdapter);
+        iniciarLista(allFriends);
     }
 
     public void our(View view)
     {
-        RecyclerViewUserAdapter recyclerViewUserAdapter = new RecyclerViewUserAdapter(this, ourFriends);
-        RecyclerView recyclerView = findViewById(R.id.recyclerFriends);
-        recyclerView.setAdapter(recyclerViewUserAdapter);
+        iniciarLista(ourFriends);
     }
 
 
@@ -58,56 +59,49 @@ public class FriendsView extends AppCompatActivity {
         Intent intent = getIntent();
         this.id = intent.getStringExtra("userId");
 
-        ValueEventListener userListener = new ValueEventListener() {
+
+        Query query = myRef;
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Usuario currentUsuario = dataSnapshot.child("usuarios").child(id).getValue(Usuario.class);
                 for(DataSnapshot singleSnapshot: dataSnapshot.child("usuarios").getChildren()){
                     Usuario usuario = singleSnapshot.getValue(Usuario.class);
-                    assert usuario != null;
-                    usuarios.add(usuario);
+                    if(currentUsuario.getAmigos().contains(usuario.getId())){
+                        UserPreview userPreview = new UserPreview(usuario.getNombre() + " " + usuario.getApellido(),usuario.getId(),usuario.getLinkImgPerfil());
+                        allFriends.add(userPreview);
+                        Toast.makeText(FriendsView.this, usuario.getNombre(), Toast.LENGTH_SHORT).show();
+                    }
                 }
+
+                for(UserPreview userPreview: allFriends){
+                    if(MenuActivity.usuario.getAmigos().contains(userPreview)){
+                        ourFriends.add(userPreview);
+                    }
+                }
+                iniciarLista(allFriends);
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
-                // ...
-            }
-        };
-        myRef.addValueEventListener(userListener);
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-        for (Usuario usuariotmp: usuarios
-             ) {
-            if (usuariotmp.getId().equals(id))
-            {
-                this.usuario = usuariotmp;
             }
-        }
+        });
 
-        // All users
-        for (Usuario usr: usuarios
-             ) {
-            if (usuario.getAmigos().contains(usr.getId()))
-            {
-                allFriends.add(new UserPreview(usr.getNombre(), usr.getId(), usr.getLinkImgPerfil()));
-            }
-        }
-
-        // Our friends
-        for (Usuario usr: usuarios
-             ) {
-            if (usuario.getAmigos().contains(usr.getId()) && MenuActivity.usuario.getAmigos().contains(usr.getId()))
-            {
-                ourFriends.add(new UserPreview(usr.getNombre(), usr.getId(), usr.getLinkImgPerfil()));
-            }
-        }
-
-        RecyclerViewUserAdapter recyclerViewUserAdapter = new RecyclerViewUserAdapter(this, allFriends);
-        RecyclerView recyclerView = findViewById(R.id.recyclerFriends);
-        recyclerView.setAdapter(recyclerViewUserAdapter);
 
 
     }
+
+    public void iniciarLista(ArrayList<UserPreview> friends)
+    {
+        RecyclerViewUserAdapter recyclerViewUserAdapter = new RecyclerViewUserAdapter(this, friends);
+        RecyclerView recyclerView = findViewById(R.id.recyclerFriends);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(recyclerViewUserAdapter);
+    }
+
+
 
 }
