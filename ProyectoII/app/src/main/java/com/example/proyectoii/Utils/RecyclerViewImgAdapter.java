@@ -44,7 +44,7 @@ public class RecyclerViewImgAdapter extends RecyclerView.Adapter<RecyclerViewImg
     public void onBindViewHolder(@NonNull final RecyclerViewImgAdapter.ViewHolder holder, final int position) {
         String imageLink = usersImgs.get(position);
 
-        if (!imageLink.isEmpty()) {
+        if (imageLink != null &&!imageLink.isEmpty()) {
             Uri muri = Uri.parse(imageLink);
             Glide.with(mContext).load(muri).into(holder.image);
         }
