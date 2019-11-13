@@ -6,9 +6,13 @@ import android.os.Bundle;
 
 public class ProfileView extends AppCompatActivity {
 
+    private String userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_view);
+
+        userId = getIntent().getStringExtra("USERID");
     }
 }
