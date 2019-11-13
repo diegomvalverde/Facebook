@@ -69,6 +69,7 @@ public class ProfileView extends AppCompatActivity implements RecyclerViewPostAd
         textView = findViewById(R.id.nameTxt);
         infoTxt = findViewById(R.id.infoTxt);
         viewGallery = findViewById(R.id.btn_gallery);
+        addButton =  findViewById(R.id.addUserBtn);
 
         final String userid = getIntent().getStringExtra("USERID");
         Query query = myRef;
@@ -90,7 +91,7 @@ public class ProfileView extends AppCompatActivity implements RecyclerViewPostAd
     }
 
     public void initializeElems() {
-        addButton =  findViewById(R.id.acceptButton);
+
         if (MenuActivity.usuario.getAmigos().contains(usuario.getId()))
         {
             addButton.setEnabled(false);
