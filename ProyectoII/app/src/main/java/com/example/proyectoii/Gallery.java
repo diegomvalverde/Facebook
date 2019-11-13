@@ -36,7 +36,6 @@ public class Gallery extends AppCompatActivity {
         userid = getIntent().getStringExtra("USERID");
         userImgs = new ArrayList<String>();
         getUserImgs();
-        setRecyclerView();
 
         Button back = findViewById(R.id.btn_post_back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -48,6 +47,7 @@ public class Gallery extends AppCompatActivity {
     }
 
     public void getUserImgs() {
+        userImgs.clear();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         Query query = ref.orderByChild("posts");
         query.addValueEventListener(new ValueEventListener() {
@@ -58,6 +58,7 @@ public class Gallery extends AppCompatActivity {
                     if (post.getAuthorId().equals(userid)) {
                         if (post.getTipo().equals("IMAGE")){
                             userImgs.add(post.getImageURI());
+                            setRecyclerView();
                         }
                     }
                 }
@@ -73,6 +74,7 @@ public class Gallery extends AppCompatActivity {
     public void setRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.gallery_recycler);
         RecyclerViewImgAdapter adapter = new RecyclerViewImgAdapter(getApplicationContext() ,userImgs);
+        adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
