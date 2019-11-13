@@ -6,6 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".FriendsView">
 
+    <Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/btn_post_back"
+            android:layout_width="25sp"
+            android:layout_height="23sp"
+            android:background="@drawable/ic_arrow_back"
+            android:onClick="cancelEdit"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="16dp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Amigos"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
+            tools:layout_editor_absoluteX="100dp"
+            tools:layout_editor_absoluteY="13dp" />
+
+    </Toolbar>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerFriends"
         android:layout_width="match_parent"
@@ -19,20 +48,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="62dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:onClick="all"
         android:text="Todos"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <Button
         android:id="@+id/ourBtn"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="16dp"
         android:onClick="our"
         android:text="En común"
         app:layout_constraintStart_toEndOf="@+id/allBtn"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

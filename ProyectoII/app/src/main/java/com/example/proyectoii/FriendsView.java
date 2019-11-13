@@ -31,6 +31,11 @@ public class FriendsView extends AppCompatActivity {
     ArrayList<UserPreview> allFriends = new ArrayList<>();
     ArrayList<UserPreview> ourFriends = new ArrayList<>();
 
+    public void cancelEdit(View view)
+    {
+        finish();
+    }
+
     public void all(View view)
     {
         RecyclerViewUserAdapter recyclerViewUserAdapter = new RecyclerViewUserAdapter(this, allFriends);
