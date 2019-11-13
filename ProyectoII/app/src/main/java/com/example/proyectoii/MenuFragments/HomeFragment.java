@@ -6,6 +6,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -13,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.amrdeveloper.reactbutton.ReactButton;
 import com.amrdeveloper.reactbutton.Reaction;
@@ -44,7 +48,14 @@ public class HomeFragment extends Fragment implements RecyclerViewPostAdapter.On
     FirebaseDatabase db = FirebaseDatabase.getInstance();
     DatabaseReference myRef = db.getReference();
     private View view;
-    public static int contadorPublicaciones ;
+    private boolean cargando = false;
+    public static int contadorPublicaciones = -1;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private boolean reiniciar = true;
+    private RecyclerViewPostAdapter adapter;
+    private ProgressBar progressBar;
+    private LinearLayoutManager linearLayoutManager;
+    private boolean noMorePost = false;
 
 
     @Nullable
@@ -52,19 +63,31 @@ public class HomeFragment extends Fragment implements RecyclerViewPostAdapter.On
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home,container,false);
 
-        ArrayList<String> amigos = MenuActivity.usuario.getAmigos();
-        amigos.add(MenuActivity.usuario.getId());
-        posts = new ArrayList<>();
-        obtenerPost(amigos);
+        progressBar = view.findViewById(R.id.progressBar_Home);
         FloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                reiniciar = false;
                 Intent intent = new Intent(getActivity(), Post.class);
                 startActivity(intent);
             }
         });
 
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout_home);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                ArrayList<String> amigos = MenuActivity.usuario.getAmigos();
+                amigos.add(MenuActivity.usuario.getId());
+                contadorPublicaciones = -1;
+                noMorePost = false;
+                obtenerPost(amigos,false);
+
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
 
         return view;
@@ -73,91 +96,169 @@ public class HomeFragment extends Fragment implements RecyclerViewPostAdapter.On
     @Override
     public void onResume() {
         super.onResume();
-        contadorPublicaciones = -1;
-    }
-
-    public void obtenerPost(final ArrayList<String> amigos){
-
-        Query query = myRef.orderByChild("posts");
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<DataSnapshot> dataSnapshots = new ArrayList<>();
-                for(DataSnapshot singleSnapshot: dataSnapshot.child("posts").getChildren()){
-                    dataSnapshots.add(singleSnapshot);
-                }
-
-                if(contadorPublicaciones == -1){
-                    contadorPublicaciones = dataSnapshots.size();
-                    posts = new ArrayList<>();
-                }
-
-                int postEncontrados = 0;
-                while(contadorPublicaciones > 0 && postEncontrados < 10){
-                    DataSnapshot singleSnapshot = dataSnapshots.get(contadorPublicaciones-1);
-                    PostObject postObject = singleSnapshot.getValue(PostObject.class);
-
-                    String auhotID = postObject.getAuthorId();
-
-                    if(amigos.contains(auhotID)){
-                        Usuario usuario = dataSnapshot.child("usuarios").child(postObject.getAuthorId()).getValue(Usuario.class);
-
-                        String username = usuario.getNombre() + " " + usuario.getApellido();
-                        PostWithUser post = new PostWithUser(usuario.getId(),postObject.getDescripcion(),postObject.getTipo(),postObject.getIdPost(),username,usuario.getLinkImgPerfil());
-
-                        for(DataSnapshot reactionSnapshot: singleSnapshot.child("reacciones").getChildren()){
-                            //String autorReaccion = reactionSnapshot.child("idAutor").getValue(String.class);
-                            //int tipoReaccion = reactionSnapshot.child("tipoReaccion").getValue(Integer.class);
-                            Reaccion reaccion = reactionSnapshot.getValue(Reaccion.class);
-
-                            post.getReacciones().add(reaccion);
-                        }
-
-                        for(DataSnapshot commentSnapshot: singleSnapshot.child("comentarios").getChildren()){
-                            post.getComentarios().add(commentSnapshot.getValue(Comentario.class));
-                        }
-
-                        switch (post.getTipo()){
-                            case "IMAGE":
-                                post.setImageURI(singleSnapshot.child("imageURI").getValue(String.class));
-                                break;
-                            case "VIDEO":
-                                post.setVideoUrl(singleSnapshot.child("videoUrl").getValue(String.class));
-                                break;
-                        }
-
-                        post.setFecha(singleSnapshot.child("fecha").getValue(String.class));
-                        posts.add(post);
-
-                        postEncontrados++;
-
-                    }
-
-                    contadorPublicaciones--;
-
-                }
-
-                iniciarRecyclerView();
+        reiniciar = true;
+        if(!cargando) {
+            if (contadorPublicaciones == -1) {
+                cargando = true;
+                ArrayList<String> amigos = MenuActivity.usuario.getAmigos();
+                amigos.add(MenuActivity.usuario.getId());
+                posts = new ArrayList<>();
+                obtenerPost(amigos,true);
             }
+        }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-    }
-
-
-    public void iniciarRecyclerView(){
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerView_home);
-        RecyclerViewPostAdapter adapter = new RecyclerViewPostAdapter(getContext(),posts,this);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
     }
 
     @Override
-    public void onPostClick(PostWithUser postWithUser) {
+    public void onStart() {
+        super.onStart();
+        reiniciar = true;
+        if(!cargando) {
+            if (contadorPublicaciones == -1 ) {
+                cargando = true;
+                ArrayList<String> amigos = MenuActivity.usuario.getAmigos();
+                amigos.add(MenuActivity.usuario.getId());
+                posts = new ArrayList<>();
+                obtenerPost(amigos,true);
+            }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        contadorPublicaciones = -1;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(reiniciar){
+            contadorPublicaciones = -1;
+        }
+    }
+
+    public void obtenerPost(final ArrayList<String> amigos, final Boolean reiniciarTimeline){
+        if (reiniciarTimeline || (!reiniciarTimeline && !noMorePost)) {
+            progressBar.setVisibility(View.VISIBLE);
+            Query query = myRef.orderByChild("posts");
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    List<DataSnapshot> dataSnapshots = new ArrayList<>();
+                    for (DataSnapshot singleSnapshot : dataSnapshot.child("posts").getChildren()) {
+                        dataSnapshots.add(singleSnapshot);
+                    }
+
+                    if (contadorPublicaciones == -1) {
+                        contadorPublicaciones = dataSnapshots.size();
+                        posts = new ArrayList<>();
+                    }
+
+                    int postEncontrados = 0;
+                    while (contadorPublicaciones > 0 && postEncontrados < 10) {
+                        DataSnapshot singleSnapshot = dataSnapshots.get(contadorPublicaciones - 1);
+                        PostObject postObject = singleSnapshot.getValue(PostObject.class);
+
+                        String auhotID = postObject.getAuthorId();
+
+                        if (amigos.contains(auhotID)) {
+                            Usuario usuario = dataSnapshot.child("usuarios").child(postObject.getAuthorId()).getValue(Usuario.class);
+
+                            String username = usuario.getNombre() + " " + usuario.getApellido();
+                            PostWithUser post = new PostWithUser(usuario.getId(), postObject.getDescripcion(), postObject.getTipo(), postObject.getIdPost(), username, usuario.getLinkImgPerfil());
+
+                            for (DataSnapshot reactionSnapshot : singleSnapshot.child("reacciones").getChildren()) {
+                                //String autorReaccion = reactionSnapshot.child("idAutor").getValue(String.class);
+                                //int tipoReaccion = reactionSnapshot.child("tipoReaccion").getValue(Integer.class);
+                                Reaccion reaccion = reactionSnapshot.getValue(Reaccion.class);
+
+                                post.getReacciones().add(reaccion);
+                            }
+
+                            for (DataSnapshot commentSnapshot : singleSnapshot.child("comentarios").getChildren()) {
+                                post.getComentarios().add(commentSnapshot.getValue(Comentario.class));
+                            }
+
+                            switch (post.getTipo()) {
+                                case "IMAGE":
+                                    post.setImageURI(singleSnapshot.child("imageURI").getValue(String.class));
+                                    break;
+                                case "VIDEO":
+                                    post.setVideoUrl(singleSnapshot.child("videoUrl").getValue(String.class));
+                                    break;
+                            }
+
+                            post.setFecha(singleSnapshot.child("fecha").getValue(String.class));
+                            posts.add(post);
+
+                            postEncontrados++;
+
+                        }
+
+                        contadorPublicaciones--;
+
+                    }
+                    if (postEncontrados < 10)
+                        noMorePost = true;
+
+                    iniciarRecyclerView(reiniciarTimeline);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+        }
+
+    }
+
+
+    public void iniciarRecyclerView(Boolean reiniciarTimeline){
+        if(reiniciarTimeline) {
+            RecyclerView recyclerView = view.findViewById(R.id.recyclerView_home);
+            adapter = new RecyclerViewPostAdapter(getContext(), posts, this);
+            recyclerView.setAdapter(adapter);
+            linearLayoutManager = new LinearLayoutManager(this.getActivity());
+            recyclerView.setLayoutManager(linearLayoutManager);
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+                    int visibleItemCount = linearLayoutManager.getChildCount();
+                    int totalItemCount = linearLayoutManager.getItemCount();
+                    int firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
+                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount && firstVisibleItemPosition >= 0) {
+                        ArrayList<String> amigos = MenuActivity.usuario.getAmigos();
+                        amigos.add(MenuActivity.usuario.getId());
+                        obtenerPost(amigos,false);
+                        }
+
+                }
+            });
+            cargando = false;
+        }
+        else{
+            adapter.notifyDataSetChanged();
+        }
+
+        progressBar.setVisibility(View.GONE);
+    }
+
+
+    @Override
+    public void onContentClick(PostWithUser postWithUser) {
+        reiniciar = false;
+        Intent intent = new Intent(getContext(), VerPublicacionActivity.class);
+        intent.putExtra("Post",postWithUser);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onTextClick(PostWithUser postWithUser) {
+        reiniciar = false;
         Intent intent = new Intent(getContext(), VerPublicacionActivity.class);
         intent.putExtra("Post",postWithUser);
         startActivity(intent);
@@ -168,15 +269,15 @@ public class HomeFragment extends Fragment implements RecyclerViewPostAdapter.On
 
         Reaccion reaccion = new Reaccion(MenuActivity.usuario.getId(),0);
         if(postWithUser.getReacciones().contains(reaccion)){
-            int reactionIndex = postWithUser.getReacciones().indexOf(reaccion);
-            agregarReaccion(reaccion,reactionIndex,postWithUser);
+            agregarReaccion(reaccion,postWithUser);
             reactButton.setCurrentReaction(reactButton.getDefaultReaction());
+            postWithUser.getReacciones().remove(reaccion);
         }
         else{
             reactButton.setCurrentReaction(RecyclerViewPostAdapter.reactions[1]);
             reaccion.setTipoReaccion(1);
             postWithUser.getReacciones().add(reaccion);
-            agregarReaccion(reaccion,postWithUser.getReacciones().size()-1,postWithUser);
+            agregarReaccion(reaccion,postWithUser);
         }
 
     }
@@ -210,21 +311,30 @@ public class HomeFragment extends Fragment implements RecyclerViewPostAdapter.On
         Reaccion reaccion = new Reaccion(MenuActivity.usuario.getId(),tipoReaccion);
         if(postWithUser.getReacciones().contains(reaccion)){
             int reactionIndex = postWithUser.getReacciones().indexOf(reaccion);
-            postWithUser.getReacciones().set(reactionIndex,reaccion);
-            agregarReaccion(reaccion,reactionIndex,postWithUser);
+            if (tipoReaccion == 0){
+                postWithUser.getReacciones().remove(reactionIndex);
+            }
+            else{
+                postWithUser.getReacciones().set(reactionIndex,reaccion);
+            }
+
+
+
+            agregarReaccion(reaccion,postWithUser);
+
 
 
         }
 
         else{
             postWithUser.getReacciones().add(reaccion);
-            agregarReaccion(reaccion,postWithUser.getReacciones().size()-1,postWithUser);
-
+            agregarReaccion(reaccion,postWithUser);
         }
     }
 
     @Override
     public void onCommentClick(PostWithUser postWithUser) {
+        reiniciar = false;
         Intent intent = new Intent(getContext(), VerPublicacionActivity.class);
         intent.putExtra("Post",postWithUser);
         intent.putExtra("Comentario",true);
@@ -237,26 +347,51 @@ public class HomeFragment extends Fragment implements RecyclerViewPostAdapter.On
     }
 
 
-    public void agregarReaccion(Reaccion reaccion,int reaccionIndex,PostWithUser post){
+    public void agregarReaccion(final Reaccion reaccion,final PostWithUser post){
         final FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
         final DatabaseReference myRef  = mFirebaseDatabase.getReference();
+        Query query = myRef;
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<Reaccion> arrayList  = new ArrayList<>();
+                for(DataSnapshot singledataSnapshot : dataSnapshot.child("posts").child(post.getIdPost()).child("reacciones").getChildren()) {
+                    Reaccion reaccionTemp = singledataSnapshot.getValue(Reaccion.class);
+                    arrayList.add(reaccionTemp);
+                }
 
-        if (reaccion.getTipoReaccion() != 0) {
-            myRef.child("posts")
-                    .child(post.getIdPost())
-                    .child("reacciones")
-                    .child(String.valueOf(reaccionIndex))
-                    .setValue(reaccion);
-        }
-        else{
-            myRef.child("posts")
-                    .child(post.getIdPost())
-                    .child("reacciones")
-                    .child(String.valueOf(reaccionIndex))
-                    .setValue(null);
-            post.getReacciones().remove(reaccionIndex);
-        }
+                long reaccionIndex = arrayList.indexOf(reaccion);
+
+                if (reaccionIndex == -1){
+                    reaccionIndex = arrayList.size();
+                }
+                if (reaccion.getTipoReaccion() != 0) {
+                    myRef.child("posts")
+                            .child(post.getIdPost())
+                            .child("reacciones")
+                            .child(String.valueOf(reaccionIndex))
+                            .setValue(reaccion);
+                }
+                else{
+                    arrayList.remove(reaccion);
+                    myRef.child("posts")
+                            .child(post.getIdPost())
+                            .child("reacciones")
+                            .setValue(arrayList);
+
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 
 
     }
+
 }

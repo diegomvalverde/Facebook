@@ -54,6 +54,7 @@ public class MenuActivity extends AppCompatActivity {
     private static Context mContext;
     private static TabLayout tabLayout;
     private static Boolean isGettingUser = false;
+    private static ConnectivityManager connMgr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,7 @@ public class MenuActivity extends AppCompatActivity {
         errorLayout = findViewById(R.id.layout_Menu_Error);
         mContext = getApplicationContext();
         tabLayout = findViewById(R.id.tabs);
+        connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (checkNetworkConnectionStatus()) {
             if (!isGettingUser) {
                 cargandoLayout.setVisibility(View.VISIBLE);
@@ -74,13 +76,14 @@ public class MenuActivity extends AppCompatActivity {
             }
         }
         else{
-            cargandoLayout.setVisibility(View.INVISIBLE);
-            errorLayout.setVisibility(View.VISIBLE);
+            cargandoLayout.setVisibility(View.GONE);
+            errorLayout.setVisibility(View.GONE);
         }
 
 
 
     }
+
 
     @Override
     protected void onResume() {
@@ -93,7 +96,7 @@ public class MenuActivity extends AppCompatActivity {
             }
         }
         else{
-            cargandoLayout.setVisibility(View.INVISIBLE);
+            cargandoLayout.setVisibility(View.GONE);
             errorLayout.setVisibility(View.VISIBLE);
         }
     }
@@ -109,10 +112,12 @@ public class MenuActivity extends AppCompatActivity {
             }
         }
         else{
-            cargandoLayout.setVisibility(View.INVISIBLE);
+            cargandoLayout.setVisibility(View.GONE);
             errorLayout.setVisibility(View.VISIBLE);
         }
     }
+
+
 
     @Override
     protected void onStop() {
@@ -124,6 +129,28 @@ public class MenuActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         isGettingUser = false;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isGettingUser = false;
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (checkNetworkConnectionStatus()) {
+            if (!isGettingUser) {
+                cargandoLayout.setVisibility(View.VISIBLE);
+                isGettingUser = true;
+                getCurrentUser(false);
+            }
+        }
+        else{
+            cargandoLayout.setVisibility(View.GONE);
+            errorLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
@@ -157,6 +184,9 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 super.onTabSelected(tab);
+                if(!checkNetworkConnectionStatus()){
+                    errorLayout.setVisibility(View.VISIBLE);
+                }
                 int tabIconColor = ContextCompat.getColor(mContext, R.color.DarkCyan);
                 tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
             }
@@ -240,9 +270,7 @@ public class MenuActivity extends AppCompatActivity {
     }
 
 
-    private boolean checkNetworkConnectionStatus() {
-        ConnectivityManager connMgr = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
+    private static boolean checkNetworkConnectionStatus() {
         NetworkInfo activeInfo = connMgr.getActiveNetworkInfo();
         if (activeInfo != null && activeInfo.isConnected()){ //connected with either mobile or wifi
             return  true;
