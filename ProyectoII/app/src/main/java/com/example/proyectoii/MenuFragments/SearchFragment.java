@@ -1,5 +1,6 @@
 package com.example.proyectoii.MenuFragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -29,6 +30,7 @@ import com.example.proyectoii.Objetos.Usuario;
 import com.example.proyectoii.R;
 import com.example.proyectoii.Utils.RecyclerViewPostAdapter;
 import com.example.proyectoii.Utils.RecyclerViewUserAdapter;
+import com.example.proyectoii.VerPublicacionActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -243,9 +245,19 @@ public class SearchFragment extends Fragment implements RecyclerViewPostAdapter.
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
     }
 
+
     @Override
-    public void onPostClick(PostWithUser postWithUser) {
-        Toast.makeText(getContext(), postWithUser.getImageURI(), Toast.LENGTH_SHORT).show();
+    public void onContentClick(PostWithUser postWithUser) {
+        Intent intent = new Intent(getContext(), VerPublicacionActivity.class);
+        intent.putExtra("Post",postWithUser);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onTextClick(PostWithUser postWithUser) {
+        Intent intent = new Intent(getContext(), VerPublicacionActivity.class);
+        intent.putExtra("Post",postWithUser);
+        startActivity(intent);
     }
 
     @Override

@@ -1,9 +1,11 @@
 package com.example.proyectoii;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -15,12 +17,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.amrdeveloper.reactbutton.ReactButton;
+import com.amrdeveloper.reactbutton.Reaction;
 import com.bumptech.glide.Glide;
+import com.example.proyectoii.BeforeLogin.LogInActivity;
 import com.example.proyectoii.Objetos.Comentario;
 import com.example.proyectoii.Objetos.PostWithUser;
 import com.example.proyectoii.Objetos.Reaccion;
 import com.example.proyectoii.Objetos.Usuario;
 import com.example.proyectoii.Utils.RecyclerViewCommentAdapter;
+import com.example.proyectoii.Utils.RecyclerViewPostAdapter;
 import com.example.proyectoii.Utils.YouTubeFailureRecoveryActivity;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
@@ -86,7 +91,6 @@ public class VerPublicacionActivity extends YouTubeFailureRecoveryActivity imple
         reactButton.setDefaultReaction(reactions[0]);
         reactButton.setReactions(reactions[1], reactions[2], reactions[3], reactions[4], reactions[5], reactions[6]);
         Reaccion reaccion = new Reaccion(MenuActivity.usuario.getId(), 0);
-        Log.i("Resultados", post.toString());
         if (post.getReacciones().contains(reaccion)) {
             Reaccion reaccionUsuario = post.getReacciones().get(post.getReacciones().indexOf(reaccion));
 
@@ -128,11 +132,25 @@ public class VerPublicacionActivity extends YouTubeFailureRecoveryActivity imple
 
 
         obtenerComentarios();
-        actualizarReacciones();
+        obtenerReacciones();
 
+        reactButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onLikeClick();
+            }
+        });
+
+        reactButton.setReactDismissListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                onLikeLongClick();
+                return true;
+            }
+        });
 
         if (quiereComentar) {
-
+            editTextComentario.requestFocus();
         }
 
     }
@@ -148,6 +166,7 @@ public class VerPublicacionActivity extends YouTubeFailureRecoveryActivity imple
             String idUsuario = MenuActivity.usuario.getId();
             Comentario comentario = new Comentario(idUsuario,textoComentario);
             subirComentario(comentario);
+            hideKeyboard();
         }
         else
             Toast.makeText(this, "No se permiten comentarios vacios", Toast.LENGTH_SHORT).show();
@@ -285,5 +304,139 @@ public class VerPublicacionActivity extends YouTubeFailureRecoveryActivity imple
     @Override
     public void onCommentClick(String idAutor) {
         Toast.makeText(this, "Falta abrir el usuario", Toast.LENGTH_SHORT).show();
+    }
+
+    public  void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+
+        View view = this.getCurrentFocus();
+
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+
+    public void onLikeClick() {
+
+        Reaccion reaccion = new Reaccion(MenuActivity.usuario.getId(),0);
+        if(!post.getReacciones().contains(reaccion)){
+            reaccion.setTipoReaccion(1);
+            reactButton.setCurrentReaction(reactions[1]);
+        }
+        else{
+            reactButton.setCurrentReaction(reactions[0]);
+        }
+        agregarReaccion(reaccion);
+
+
+    }
+
+    public void onLikeLongClick() {
+        int tipoReaccion;
+        switch (reactButton.getCurrentReaction().getReactType()){
+            case "Me gusta":
+                tipoReaccion = 1;
+                break;
+            case "Me encanta":
+                tipoReaccion = 2;
+                break;
+            case "Me divierte":
+                tipoReaccion = 3;
+                break;
+            case "Me asombra":
+                tipoReaccion = 4;
+                break;
+            case "No me gusta":
+                tipoReaccion = 5;
+                break;
+            case "Me enoja":
+                tipoReaccion = 6;
+                break;
+            default:
+                tipoReaccion = 0;
+                break;
+        }
+        Reaccion reaccion = new Reaccion(MenuActivity.usuario.getId(),tipoReaccion);
+        agregarReaccion(reaccion);
+    }
+
+    public void agregarReaccion(final Reaccion reaccion){
+        final FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
+        final DatabaseReference myRef  = mFirebaseDatabase.getReference();
+        final String idPost = post.getIdPost();
+
+
+        Query query = myRef;
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                long index;
+                ArrayList<Reaccion> arrayList  = new ArrayList<>();
+                for(DataSnapshot singledataSnapshot : dataSnapshot.child("posts").child(idPost).child("reacciones").getChildren()){
+                    Reaccion reaccionTemp = singledataSnapshot.getValue(Reaccion.class);
+                    arrayList.add(reaccionTemp);
+                }
+                index = arrayList.indexOf(reaccion);
+                if (index == -1){
+                    index = arrayList.size();
+                    arrayList.add(reaccion);
+                }
+                else{
+
+                    arrayList.set(Math.toIntExact(index),reaccion);
+                }
+
+                if (reaccion.getTipoReaccion() != 0) {
+                    myRef.child("posts")
+                            .child(idPost)
+                            .child("reacciones")
+                            .child(String.valueOf(index))
+                            .setValue(reaccion);
+                }
+                else{
+                    arrayList.remove(reaccion);
+                    myRef.child("posts")
+                            .child(idPost)
+                            .child("reacciones")
+                            .setValue(arrayList);
+                }
+                post.setReacciones(arrayList);
+                actualizarReacciones();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    public void obtenerReacciones(){
+        final FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
+        final DatabaseReference myRef  = mFirebaseDatabase.getReference();
+        final String idPost = post.getIdPost();
+
+        Query query = myRef;
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<Reaccion> arrayList  = new ArrayList<>();
+                for(DataSnapshot singledataSnapshot : dataSnapshot.child("posts").child(idPost).child("reacciones").getChildren()){
+                    Reaccion reaccionTemp = singledataSnapshot.getValue(Reaccion.class);
+                    arrayList.add(reaccionTemp);
+                }
+
+                post.setReacciones(arrayList);
+
+                actualizarReacciones();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

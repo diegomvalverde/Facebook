@@ -20,7 +20,8 @@
         <activity android:name=".ProfileUtils.ProfileEditor" />
         <activity
             android:name=".VerPublicacionActivity"
-            android:theme="@style/ActivityWithToolbar" />
+            android:theme="@style/ActivityWithToolbar"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ProfileView" />
         <activity
             android:name=".BeforeLogin.ExtraInfoActivity"

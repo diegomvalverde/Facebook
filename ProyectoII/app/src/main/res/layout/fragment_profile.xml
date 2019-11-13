@@ -95,7 +95,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="445dp"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/view_pager"
             tools:layout_editor_absoluteX="-13dp" />
 
